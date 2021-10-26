@@ -5,7 +5,7 @@ data "azurerm_subnet" "api-mgmt-subnet" {
 }
 
 resource "azurerm_public_ip" "apim" {
-  name                = "core-api-mgmt-${var.env}-private-pip"
+  name                = "${var.department}-api-mgmt-${var.env}-private-pip"
   resource_group_name = var.vnet_rg
   location            = var.location
   allocation_method   = "Static"
@@ -49,7 +49,7 @@ resource "azurerm_api_management_custom_domain" "api-management-custom-domain" {
   api_management_id = data.azurerm_api_management.apim.id
 
   proxy {
-    host_name                    = "core-api-mgmt.${var.env}.platform.hmcts.net"
+    host_name                    = "${var.department}-api-mgmt.${var.env}.platform.hmcts.net"
     negotiate_client_certificate = true
     key_vault_id                 = data.azurerm_key_vault_certificate.certificate.secret_id
   }
