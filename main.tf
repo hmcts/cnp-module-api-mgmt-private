@@ -21,7 +21,6 @@ resource "azurerm_template_deployment" "apim" {
   deployment_mode     = "Incremental"
   template_body       = file("${path.module}/arm/apim.json")
   parameters = {
-    common_tags             = var.common_tags
     name                    = local.name
     location                = var.location
     sku_name                = var.sku_name
