@@ -14,6 +14,8 @@ variable "apim_subnet_address_prefix" {}
 
 variable "virtualNetworkType" {}
 
+variable "department" {}
+
 variable "virtual_network_type" {
   default = "External"
 }
