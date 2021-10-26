@@ -43,16 +43,15 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_common_tags"></a> [common\_tags](#input\_common\_tags) | n/a | `map` | <pre>{<br>  "managedBy": "pleaseTagMe"<br>}</pre> | no |
+| <a name="input_common_tags"></a> [common\_tags](#input\_common\_tags) | n/a | `any` | n/a | yes |
 | <a name="input_department"></a> [department](#input\_department) | n/a | `any` | n/a | yes |
 | <a name="input_env"></a> [env](#input\_env) | n/a | `any` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | n/a | `string` | `"UK South"` | no |
 | <a name="input_notification_sender_email"></a> [notification\_sender\_email](#input\_notification\_sender\_email) | n/a | `string` | `"apimgmt-noreply@mail.windowsazure.com"` | no |
 | <a name="input_publisher_email"></a> [publisher\_email](#input\_publisher\_email) | n/a | `string` | `"api-mangement@hmcts.net"` | no |
-| <a name="input_publisher_name"></a> [publisher\_name](#input\_publisher\_name) | n/a | `string` | `"HMCTS Reform Platform Engineering"` | no |
+| <a name="input_publisher_name"></a> [publisher\_name](#input\_publisher\_name) | n/a | `string` | `"HMCTS Platform Operations"` | no |
 | <a name="input_sku_name"></a> [sku\_name](#input\_sku\_name) | n/a | `any` | n/a | yes |
 | <a name="input_virtualNetworkType"></a> [virtualNetworkType](#input\_virtualNetworkType) | n/a | `any` | n/a | yes |
-| <a name="input_virtual_network_type"></a> [virtual\_network\_type](#input\_virtual\_network\_type) | n/a | `string` | `"External"` | no |
 | <a name="input_vnet_name"></a> [vnet\_name](#input\_vnet\_name) | n/a | `any` | n/a | yes |
 | <a name="input_vnet_rg"></a> [vnet\_rg](#input\_vnet\_rg) | n/a | `any` | n/a | yes |
 
@@ -60,4 +59,4 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_api_mgmt_name"></a> [api\_mgmt\_name](#output\_api\_mgmt\_name) | n/a |
+| <a name="output_name"></a> [name](#output\_name) | n/a |
