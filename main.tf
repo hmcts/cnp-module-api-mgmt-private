@@ -1,3 +1,9 @@
+data "azurerm_subnet" "api-mgmt-subnet" {
+  name                 = "aks-appgw"
+  virtual_network_name = var.vnet_rg
+  resource_group_name  = var.vnet_name
+}
+
 resource "azurerm_public_ip" "apim" {
   name                = "core-api-mgmt-${var.env}-private-pip"
   resource_group_name = var.vnet_rg
@@ -7,17 +13,6 @@ resource "azurerm_public_ip" "apim" {
   tags = var.common_tags
   sku  = "Standard"
 
-}
-
-resource "azurerm_subnet" "api-mgmt-subnet" {
-  name                 = "core-infra-subnet-apimgmt-${local.env}-private"
-  resource_group_name  = var.vnet_rg
-  virtual_network_name = var.vnet_name
-  address_prefixes     = [var.apim_subnet_address_prefix]
-
-  lifecycle {
-    ignore_changes = [address_prefix]
-  }
 }
 
 resource "azurerm_template_deployment" "apim" {
@@ -31,7 +26,7 @@ resource "azurerm_template_deployment" "apim" {
     sku_name                = var.sku_name
     publisherEmail          = var.publisher_email
     publisherName           = var.publisher_name
-    subnetResourceId        = azurerm_subnet.api-mgmt-subnet.id
+    subnetResourceId        = data.azurerm_subnet.api-mgmt-subnet.id
     notificationSenderEmail = var.notification_sender_email
     virtualNetworkType      = var.virtualNetworkType
     publicIpAddressId       = azurerm_public_ip.apim.id

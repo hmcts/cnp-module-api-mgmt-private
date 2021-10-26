@@ -10,8 +10,6 @@ variable "vnet_name" {}
 
 variable "sku_name" {}
 
-variable "apim_subnet_address_prefix" {}
-
 variable "virtualNetworkType" {}
 
 variable "department" {}
