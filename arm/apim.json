@@ -58,6 +58,12 @@
       "metadata": {
         "description": "Public IP Address ID"
       }
+    },
+    "common_tags": {
+      "type": "object",
+      "metadata": {
+        "description": "Tags used for Azure Resource"
+      }
     }
     },
     "variables": {
@@ -67,6 +73,7 @@
     {
       "apiVersion": "2019-12-01",
       "name": "[parameters('Name')]",
+      "tags": "[parameters('common_tags')]",
       "type": "Microsoft.ApiManagement/service",
       "location": "[parameters('location')]",
       "sku": {
