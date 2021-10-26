@@ -1,7 +1,7 @@
 data "azurerm_subnet" "api-mgmt-subnet" {
   name                 = "api-management"
-  virtual_network_name = var.vnet_rg
-  resource_group_name  = var.vnet_name
+  virtual_network_name = var.vnet_name
+  resource_group_name  = var.vnet_rg
 }
 
 resource "azurerm_public_ip" "apim" {
