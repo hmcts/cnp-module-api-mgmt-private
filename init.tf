@@ -4,7 +4,7 @@ locals {
 
   env = (var.env == "aat") ? "stg" : (var.env == "sandbox") ? "sbox" : "${(var.env == "perftest") ? "test" : "${var.env}"}"
 
-  department = var.deparment == "sds" ? "dtssds" : "dcdcft"
+  department = var.department == "sds" ? "dtssds" : "dcdcft"
 
   acmekv = var.department == "sds" ? "dtssds" : "dcdcftapps"
 
@@ -51,5 +51,5 @@ provider "azurerm" {
   alias                      = "acmedcdcftapps"
   skip_provider_registration = "true"
   features {}
-  subscription_id = var.deparment == "sds" ? local.acmedtssdsapps[local.env].subscription : local.acmedcdcftapps[local.env].subscription
+  subscription_id = var.department == "sds" ? local.acmedtssdsapps[local.env].subscription : local.acmedcdcftapps[local.env].subscription
 }
