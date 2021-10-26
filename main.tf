@@ -15,12 +15,10 @@ resource "azurerm_public_ip" "apim" {
 
 }
 
-resource "azurerm_template_deployment" "apim" {
-  name                = "core-infra-subnet-apimgmt-${local.env}"
-  resource_group_name = var.vnet_rg
-  deployment_mode     = "Incremental"
-  template_body       = file("${path.module}/arm/apim.json")
-  parameters = {
+data "template_file" "apim_parameters" {
+  template = file("${path.module}/arm/apim-parameters.tpl")
+
+  vars {
     common_tags             = var.common_tags
     name                    = local.name
     location                = var.location
@@ -32,6 +30,14 @@ resource "azurerm_template_deployment" "apim" {
     virtualNetworkType      = var.virtualNetworkType
     publicIpAddressId       = azurerm_public_ip.apim.id
   }
+}
+
+resource "azurerm_template_deployment" "apim" {
+  name                = "core-infra-subnet-apimgmt-${local.env}"
+  resource_group_name = var.vnet_rg
+  deployment_mode     = "Incremental"
+  template_body       = file("${path.module}/arm/apim.json")
+  parameters_body     = data.template_file.apim_parameters.rendered
 }
 
 resource "azurerm_role_assignment" "apim" {
