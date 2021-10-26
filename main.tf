@@ -1,5 +1,5 @@
 data "azurerm_subnet" "api-mgmt-subnet" {
-  name                 = "aks-appgw"
+  name                 = "api-management"
   virtual_network_name = var.vnet_rg
   resource_group_name  = var.vnet_name
 }
