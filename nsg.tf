@@ -6,7 +6,7 @@ resource "azurerm_network_security_group" "apim" {
 }
 
 resource "azurerm_subnet_network_security_group_association" "apim" {
-  subnet_id                 = azurerm_subnet.api-mgmt-subnet.id
+  subnet_id                 = data.azurerm_subnet.api-mgmt-subnet.id
   network_security_group_id = azurerm_network_security_group.apim.id
 }
 
