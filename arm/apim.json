@@ -53,16 +53,16 @@
         "description": "Virtual Network Type"
       }
     },
+    "environment": {
+      "type": "string",
+      "metadata": {
+        "description": "Environment"
+      }
+    },
     "publicIpAddressId": {
       "type": "string",
       "metadata": {
         "description": "Public IP Address ID"
-      }
-    },
-    "common_tags": {
-      "type": "object",
-      "metadata": {
-        "description": "Tags used for Azure Resource"
       }
     }
     },
@@ -73,7 +73,13 @@
     {
       "apiVersion": "2019-12-01",
       "name": "[parameters('Name')]",
-      "tags": "[parameters('common_tags')]",
+      "tags": {
+        "application": "core",
+        "builtFrom": "hmcts/sharedservices-azure-platform",
+        "businessArea": "Cross-Cutting",
+        "criticality":"Low",
+        "environment": "[parameters('environment')]"
+      }, 
       "type": "Microsoft.ApiManagement/service",
       "location": "[parameters('location')]",
       "sku": {

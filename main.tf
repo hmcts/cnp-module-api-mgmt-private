@@ -31,6 +31,7 @@ resource "azurerm_template_deployment" "apim" {
     notificationSenderEmail = var.notification_sender_email
     virtualNetworkType      = var.virtualNetworkType
     publicIpAddressId       = azurerm_public_ip.apim.id
+    environment             = var.env
   }
 }
 
