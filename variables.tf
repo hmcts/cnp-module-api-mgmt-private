@@ -4,7 +4,7 @@ variable "location" {
 
 variable "env" {}
 
-variable "vnet_rg_name" {}
+variable "vnet_rg" {}
 
 variable "vnet_name" {}
 

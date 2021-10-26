@@ -1,6 +1,6 @@
 resource "azurerm_public_ip" "apim" {
   name                = "core-api-mgmt-${var.env}-private-pip"
-  resource_group_name = var.vnet_rg_name
+  resource_group_name = var.vnet_rg
   location            = var.location
   allocation_method   = "Static"
 
@@ -11,7 +11,7 @@ resource "azurerm_public_ip" "apim" {
 
 resource "azurerm_subnet" "api-mgmt-subnet" {
   name                 = "core-infra-subnet-apimgmt-${local.env}-private"
-  resource_group_name  = var.vnet_rg_name
+  resource_group_name  = var.vnet_rg
   virtual_network_name = var.vnet_name
   address_prefixes     = [var.apim_subnet_address_prefix]
 
@@ -22,7 +22,7 @@ resource "azurerm_subnet" "api-mgmt-subnet" {
 
 resource "azurerm_template_deployment" "apim" {
   name                = "core-infra-subnet-apimgmt-${local.env}"
-  resource_group_name = var.vnet_rg_name
+  resource_group_name = var.vnet_rg
   deployment_mode     = "Incremental"
   template_body       = file("${path.module}/arm/apim.json")
   parameters = {
@@ -65,5 +65,3 @@ resource "azurerm_api_management_custom_domain" "api-management-custom-domain" {
     azurerm_role_assignment.apim
   ]
 }
-
-

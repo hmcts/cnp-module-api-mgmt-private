@@ -1,7 +1,7 @@
 resource "azurerm_network_security_group" "apim" {
   name                = "${local.name}-nsg"
   location            = var.location
-  resource_group_name = var.vnet_rg_name
+  resource_group_name = var.vnet_rg
 
 }
 
@@ -20,7 +20,7 @@ resource "azurerm_network_security_rule" "palo" {
   destination_port_range      = "80"
   source_address_prefixes     = split(",", local.palo_ip_addresses[[for x in keys(local.palo_env_mapping) : x if contains(local.palo_env_mapping[x], local.env)][0]].addresses)
   destination_address_prefix  = "VirtualNetwork"
-  resource_group_name         = var.vnet_rg_name
+  resource_group_name         = var.vnet_rg
   network_security_group_name = azurerm_network_security_group.apim.name
 }
 
@@ -34,7 +34,7 @@ resource "azurerm_network_security_rule" "apimanagement" {
   destination_port_range      = "3443"
   source_address_prefix       = "ApiManagement"
   destination_address_prefix  = "VirtualNetwork"
-  resource_group_name         = var.vnet_rg_name
+  resource_group_name         = var.vnet_rg
   network_security_group_name = azurerm_network_security_group.apim.name
 }
 
@@ -48,7 +48,7 @@ resource "azurerm_network_security_rule" "vpn" {
   destination_port_ranges     = [80, 443]
   source_address_prefix       = "10.99.0.0/18"
   destination_address_prefix  = "VirtualNetwork"
-  resource_group_name         = var.vnet_rg_name
+  resource_group_name         = var.vnet_rg
   network_security_group_name = azurerm_network_security_group.apim.name
 }
 
@@ -62,7 +62,7 @@ resource "azurerm_network_security_rule" "AccessRedisService" {
   destination_port_ranges     = [6381, 6382, 6383]
   source_address_prefix       = "VirtualNetwork"
   destination_address_prefix  = "VirtualNetwork"
-  resource_group_name         = var.vnet_rg_name
+  resource_group_name         = var.vnet_rg
   network_security_group_name = azurerm_network_security_group.apim.name
 }
 
@@ -76,7 +76,7 @@ resource "azurerm_network_security_rule" "SyncCounter" {
   destination_port_ranges     = ["4290"]
   source_address_prefix       = "VirtualNetwork"
   destination_address_prefix  = "VirtualNetwork"
-  resource_group_name         = var.vnet_rg_name
+  resource_group_name         = var.vnet_rg
   network_security_group_name = azurerm_network_security_group.apim.name
 }
 
@@ -90,7 +90,7 @@ resource "azurerm_network_security_rule" "loadbalancer" {
   destination_port_range      = "*"
   source_address_prefix       = "VirtualNetwork"
   destination_address_prefix  = "VirtualNetwork"
-  resource_group_name         = var.vnet_rg_name
+  resource_group_name         = var.vnet_rg
   network_security_group_name = azurerm_network_security_group.apim.name
 }
 
@@ -104,6 +104,6 @@ resource "azurerm_network_security_rule" "deny" {
   destination_port_range      = "*"
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
-  resource_group_name         = var.vnet_rg_name
+  resource_group_name         = var.vnet_rg
   network_security_group_name = azurerm_network_security_group.apim.name
 }
