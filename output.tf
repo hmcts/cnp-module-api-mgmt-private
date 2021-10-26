@@ -1,3 +1,3 @@
-output "api_mgmt_name" {
+output "name" {
   value = "${data.azurerm_api_management.apim.name}"
 }
