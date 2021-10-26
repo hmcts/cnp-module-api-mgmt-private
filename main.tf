@@ -17,8 +17,7 @@ resource "azurerm_public_ip" "apim" {
 
 data "template_file" "apim_parameters" {
   template = file("${path.module}/arm/apim-parameters.tpl")
-
-  vars {
+  vars = {
     common_tags             = var.common_tags
     name                    = local.name
     location                = var.location
@@ -33,7 +32,7 @@ data "template_file" "apim_parameters" {
 }
 
 resource "azurerm_template_deployment" "apim" {
-  name                = "core-infra-subnet-apimgmt-${local.env}"
+  name                = "core-infra-apimgmt-${local.env}"
   resource_group_name = var.vnet_rg
   deployment_mode     = "Incremental"
   template_body       = file("${path.module}/arm/apim.json")
