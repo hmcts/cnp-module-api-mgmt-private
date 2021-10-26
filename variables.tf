@@ -5,11 +5,11 @@ variable "location" {
 variable "env" {}
 
 variable "vnet_rg" {}
+
 variable "vnet_name" {}
 variable "sku_name" {}
 variable "virtualNetworkType" {}
 variable "department" {}
-variable "virtual_network_type" {}
 variable "common_tags" {}
 
 variable "publisher_email" {
