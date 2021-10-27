@@ -13,7 +13,7 @@ variable "department" {}
 variable "common_tags" {}
 
 variable "publisher_email" {
-  default = "api-mangement@hmcts.net"
+  default = "DTSPlatformOps@HMCTS.NET"
 }
 
 variable "publisher_name" {
