@@ -16,6 +16,6 @@ data "azurerm_key_vault" "main" {
 }
 
 data "azurerm_key_vault_certificate" "certificate" {
-  name         = "wildcard-sandbox-platform-hmcts-net"
+  name         = "wildcard-${local.key_vault_environment}-platform-hmcts-net"
   key_vault_id = data.azurerm_key_vault.main.id
 }

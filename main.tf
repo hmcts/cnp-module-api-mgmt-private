@@ -51,7 +51,7 @@ resource "azurerm_api_management_custom_domain" "api-management-custom-domain" {
   api_management_id = data.azurerm_api_management.apim.id
 
   proxy {
-    host_name                    = "${var.department}-api-mgmt.${var.environment}.platform.hmcts.net"
+    host_name                    = "${var.department}-api-mgmt.${local.key_vault_environment}.platform.hmcts.net"
     key_vault_id                 = local.cert_url
     negotiate_client_certificate = true
     default_ssl_binding          = true
