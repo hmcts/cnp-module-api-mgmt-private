@@ -8,6 +8,39 @@ locals {
 
   acmekv = var.department == "sds" ? "dtssds" : "dcdcftapps"
 
+  criticality = {
+    sbox      = "Low"
+    aat       = "High"
+    stg       = "High"
+    prod      = "High"
+    prod-int  = "High"
+    ithc      = "Medium"
+    test      = "Medium"
+    perftest  = "Medium"
+    demo      = "Medium"
+    dev       = "Low"
+    ptl       = "High"
+    preview   = "Low"
+    ldata     = "High"
+    sandbox   = "Low"
+    nle       = "High"
+    nonprod   = "Medium"
+    nonprodi  = "Medium"
+    ptlsbox   = "Low"
+    sbox-int = "Low"
+  }
+
+  env_mapping = {
+    production  = ["ptl", "prod", "prod-int"]
+    development = ["dev", "preview"]
+    staging     = ["ldata", "stg", "aat", "nle", "nonprod", "nonprodi"]
+    testing     = ["test", "perftest"]
+    sandbox     = ["sandbox", "sbox", "ptlsbox", "sbox-int"]
+    demo        = ["demo"]
+    ithc        = ["ithc"]
+  }
+
+
   acmedcdcftapps = {
     sbox = {
       subscription = "b72ab7b7-723f-4b18-b6f6-03b0f2c6a1bb"
@@ -38,14 +71,6 @@ locals {
     }
   }
 }
-
-
-# provider "azurerm" {
-#   alias                      = "acmedcdcftapps"
-#   skip_provider_registration = "true"
-#   features {}
-#   subscription_id = local.acmedcdcftapps[local.env].subscription
-# }
 
 provider "azurerm" {
   alias                      = "acmedcdcftapps"

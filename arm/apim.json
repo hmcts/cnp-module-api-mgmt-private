@@ -56,6 +56,12 @@
     "environment": {
       "type": "string",
       "metadata": {
+        "description": "Environment Tag"
+      }
+    },
+    "criticality": {
+      "type": "string",
+      "metadata": {
         "description": "Environment"
       }
     },
@@ -77,7 +83,7 @@
         "application": "core",
         "builtFrom": "hmcts/sharedservices-azure-platform",
         "businessArea": "Cross-Cutting",
-        "criticality":"Low",
+        "criticality": "[parameters('criticality')]",
         "environment": "[parameters('environment')]"
       }, 
       "type": "Microsoft.ApiManagement/service",
