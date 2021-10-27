@@ -6,7 +6,7 @@ locals {
 
   department = var.department == "sds" ? "dtssds" : "dcdcft"
 
-  acmekv = var.department == "sds" ? "dtssdss" : "dcdcftapps"
+  acmekv = var.department == "sds" ? "dtssds" : "dcdcftapps"
 
 cert_url = replace(data.azurerm_key_vault_certificate.certificate.secret_id, "/${data.azurerm_key_vault_certificate.certificate.version}", "")
   criticality = {
