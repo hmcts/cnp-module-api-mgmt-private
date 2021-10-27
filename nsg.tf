@@ -10,15 +10,15 @@ resource "azurerm_subnet_network_security_group_association" "apim" {
   network_security_group_id = azurerm_network_security_group.apim.id
 }
 
-resource "azurerm_network_security_rule" "environment" {
-  name                        = "environment"
+resource "azurerm_network_security_rule" "palo" {
+  name                        = "palo"
   priority                    = 100
   direction                   = "Inbound"
   access                      = "Allow"
   protocol                    = "tcp"
   source_port_range           = "*"
   destination_port_range      = "80"
-  source_address_prefixes     = split(",", local.environment_ip_addresses[[for x in keys(local.environment_environment_mapping) : x if contains(local.environment_environment_mapping[x], local.environment)][0]].addresses)
+  source_address_prefixes     = split(",", local.palo_ip_addresses[[for x in keys(local.palo_environment_mapping) : x if contains(local.palo_environment_mapping[x], local.environment)][0]].addresses)
   destination_address_prefix  = "VirtualNetwork"
   resource_group_name         = var.virtual_network_rg
   network_security_group_name = azurerm_network_security_group.apim.name
