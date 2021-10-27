@@ -16,6 +16,6 @@ data "azurerm_key_vault" "main" {
 }
 
 data "azurerm_key_vault_certificate" "certificate" {
-  name         = "hmi-apim-sandbox-platform-hmcts-net"
+  name         = "wildcard-sandbox-platform-hmcts-net"
   key_vault_id = data.azurerm_key_vault.main.id
 }
