@@ -1,6 +1,6 @@
 resource "azurerm_api_management_api" "apim" {
   name                  = "health"
-  resource_group_name   = var.virtual_network_rg
+  resource_group_name   = var.virtual_network_resource_group
   api_management_name   = data.azurerm_api_management.apim.name
   revision              = "1"
   display_name          = "Health Check"
@@ -13,7 +13,7 @@ resource "azurerm_api_management_api_operation" "apim" {
   operation_id        = "liveness-check"
   api_name            = azurerm_api_management_api.apim.name
   api_management_name = data.azurerm_api_management.apim.name
-  resource_group_name = var.virtual_network_rg
+  resource_group_name = var.virtual_network_resource_group
   display_name        = "Liveness check"
   method              = "GET"
   url_template        = "/liveness"
@@ -32,7 +32,7 @@ resource "azurerm_api_management_api_operation" "apim" {
 resource "azurerm_api_management_api_policy" "apim" {
   api_name            = azurerm_api_management_api.apim.name
   api_management_name = data.azurerm_api_management.apim.name
-  resource_group_name = var.virtual_network_rg
+  resource_group_name = var.virtual_network_resource_group
 
   xml_content = <<XML
 <policies>

@@ -54,7 +54,7 @@ No modules.
 | <a name="input_sku_name"></a> [sku\_name](#input\_sku\_name) | n/a | `string` | n/a | yes |
 | <a name="input_virtual_network_type"></a> [virtual_network_type](#input\_virtual_network_type) | n/a | `string` | n/a | yes |
 | <a name="input_virtual_network_name"></a> [virtual_network\_name](#input\_virtual_network\_name) | n/a | `string` | n/a | yes |
-| <a name="input_virtual_network_rg"></a> [virtual_network\_rg](#input\_virtual_network\_rg) | n/a | `string` | n/a | yes |
+| <a name="input_virtual_network_resource_group"></a> [virtual_network\_rg](#input\_virtual_network\_rg) | n/a | `string` | n/a | yes |
 
 ## Outputs
 

@@ -2,7 +2,7 @@ data "azurerm_client_config" "current" {}
 
 data "azurerm_api_management" "apim" {
   name                = local.name
-  resource_group_name = var.virtual_network_rg
+  resource_group_name = var.virtual_network_resource_group
 
   depends_on = [
     azurerm_template_deployment.apim

@@ -1,12 +1,12 @@
 data "azurerm_subnet" "api-mgmt-subnet" {
   name                 = "api-management"
   virtual_network_name = var.virtual_network_name
-  resource_group_name  = var.virtual_network_rg
+  resource_group_name  = var.virtual_network_resource_group
 }
 
 resource "azurerm_public_ip" "apim" {
   name                = "${var.department}-api-mgmt-${var.environment}-private-pip"
-  resource_group_name = var.virtual_network_rg
+  resource_group_name = var.virtual_network_resource_group
   location            = var.location
   allocation_method   = "Static"
 
@@ -17,7 +17,7 @@ resource "azurerm_public_ip" "apim" {
 
 resource "azurerm_template_deployment" "apim" {
   name                = "core-infra-subnet-apimgmt-${local.environment}"
-  resource_group_name = var.virtual_network_rg
+  resource_group_name = var.virtual_network_resource_group
   deployment_mode     = "Incremental"
   template_body       = file("${path.module}/arm/apim.json")
   parameters = {

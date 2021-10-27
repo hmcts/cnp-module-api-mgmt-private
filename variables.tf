@@ -4,7 +4,7 @@ variable "location" {
 
 variable "environment" {}
 
-variable "virtual_network_rg" {}
+variable "virtual_network_resource_group" {}
 
 variable "virtual_network_name" {}
 variable "sku_name" {}
