@@ -2,11 +2,11 @@ variable "location" {
   default = "UK South"
 }
 
-variable "env" {}
+variable "environment" {}
 
-variable "vnet_rg" {}
+variable "virtual_network_rg" {}
 
-variable "vnet_name" {}
+variable "virtual_network_name" {}
 variable "sku_name" {}
 variable "virtual_network_type" {}
 variable "department" {}

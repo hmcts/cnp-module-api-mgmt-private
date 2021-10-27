@@ -1,8 +1,8 @@
 locals {
-  name = "${var.department}-api-mgmt-${local.env}"
-  # platform_api_mgmt_sku = var.env == "prod" ? "Premium_1" : "Developer_1"
+  name = "${var.department}-api-mgmt-${local.environment}"
+  # platform_api_mgmt_sku = var.environment == "prod" ? "Premium_1" : "Developer_1"
 
-  env = (var.env == "aat") ? "stg" : (var.env == "sandbox") ? "sbox" : "${(var.env == "perftest") ? "test" : "${var.env}"}"
+  environment = (var.environment == "aat") ? "stg" : (var.environment == "sandbox") ? "sbox" : "${(var.environment == "perftest") ? "test" : "${var.environment}"}"
 
   department = var.department == "sds" ? "dtssds" : "dcdcft"
 
@@ -30,7 +30,7 @@ locals {
     sbox-int = "Low"
   }
 
-  env_mapping = {
+  environment_mapping = {
     production  = ["ptl", "prod", "prod-int"]
     development = ["dev", "preview"]
     staging     = ["ldata", "stg", "aat", "nle", "nonprod", "nonprodi"]
@@ -53,7 +53,7 @@ locals {
     }
   }
 
-  palo_env_mapping = {
+  palo_environment_mapping = {
     sbox    = ["sbox"]
     nonprod = ["demo", "ithc", "test"]
     prod    = ["prod", "stg"]
@@ -76,5 +76,5 @@ provider "azurerm" {
   alias                      = "acmedcdcftapps"
   skip_provider_registration = "true"
   features {}
-  subscription_id = var.department == "sds" ? local.acmedtssdsapps[local.env].subscription : local.acmedcdcftapps[local.env].subscription
+  subscription_id = var.department == "sds" ? local.acmedtssdsapps[local.environment].subscription : local.acmedcdcftapps[local.environment].subscription
 }

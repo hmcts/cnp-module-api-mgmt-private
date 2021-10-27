@@ -1,12 +1,12 @@
 data "azurerm_subnet" "api-mgmt-subnet" {
   name                 = "api-management"
-  virtual_network_name = var.vnet_name
-  resource_group_name  = var.vnet_rg
+  virtual_network_name = var.virtual_network_name
+  resource_group_name  = var.virtual_network_rg
 }
 
 resource "azurerm_public_ip" "apim" {
-  name                = "${var.department}-api-mgmt-${var.env}-private-pip"
-  resource_group_name = var.vnet_rg
+  name                = "${var.department}-api-mgmt-${var.environment}-private-pip"
+  resource_group_name = var.virtual_network_rg
   location            = var.location
   allocation_method   = "Static"
 
@@ -16,8 +16,8 @@ resource "azurerm_public_ip" "apim" {
 }
 
 resource "azurerm_template_deployment" "apim" {
-  name                = "core-infra-subnet-apimgmt-${local.env}"
-  resource_group_name = var.vnet_rg
+  name                = "core-infra-subnet-apimgmt-${local.environment}"
+  resource_group_name = var.virtual_network_rg
   deployment_mode     = "Incremental"
   template_body       = file("${path.module}/arm/apim.json")
   parameters = {
@@ -30,8 +30,8 @@ resource "azurerm_template_deployment" "apim" {
     notificationSenderEmail = var.notification_sender_email
     virtualNetworkType      = var.virtual_network_type
     publicIpAddressId       = azurerm_public_ip.apim.id
-    environment             = [for x in keys(local.env_mapping) : x if contains(local.env_mapping[x], var.env)][0]
-    criticality             = local.criticality[var.env]
+    environmentironment     = [for x in keys(local.environment_mapping) : x if contains(local.environment_mapping[x], var.environment)][0]
+    criticality             = local.criticality[var.environment]
   }
 }
 
@@ -51,7 +51,7 @@ resource "azurerm_api_management_custom_domain" "api-management-custom-domain" {
   api_management_id = data.azurerm_api_management.apim.id
 
   proxy {
-    host_name                    = "${var.department}-api-mgmt.${var.env}.platform.hmcts.net"
+    host_name                    = "${var.department}-api-mgmt.${var.environment}.platform.hmcts.net"
     negotiate_client_certificate = true
     key_vault_id                 = data.azurerm_key_vault_certificate.certificate.secret_id
   }
