@@ -58,6 +58,7 @@ resource "azurerm_api_management_custom_domain" "api-management-custom-domain" {
   }
 
   depends_on = [
+    data.azurerm_key_vault_certificate.certificate,
     azurerm_template_deployment.apim,
     data.azurerm_api_management.apim,
     azurerm_role_assignment.apim
