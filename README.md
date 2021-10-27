@@ -52,7 +52,7 @@ No modules.
 | <a name="input_publisher_email"></a> [publisher\_email](#input\_publisher\_email) | n/a | `string` | `"api-mangement@hmcts.net"` | no |
 | <a name="input_publisher_name"></a> [publisher\_name](#input\_publisher\_name) | n/a | `string` | `"HMCTS Platform Operations"` | no |
 | <a name="input_sku_name"></a> [sku\_name](#input\_sku\_name) | n/a | `any` | n/a | yes |
-| <a name="input_virtualNetworkType"></a> [virtualNetworkType](#input\_virtualNetworkType) | n/a | `any` | n/a | yes |
+| <a name="input_virtual_network_type"></a> [virtual_network_type](#input\_virtual_network_type) | n/a | `any` | n/a | yes |
 | <a name="input_vnet_name"></a> [vnet\_name](#input\_vnet\_name) | n/a | `any` | n/a | yes |
 | <a name="input_vnet_rg"></a> [vnet\_rg](#input\_vnet\_rg) | n/a | `any` | n/a | yes |
 

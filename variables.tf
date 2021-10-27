@@ -2,15 +2,28 @@ variable "location" {
   default = "UK South"
 }
 
-variable "env" {}
+variable "env" {
+  type = string
+}
 
-variable "vnet_rg" {}
+variable "vnet_rg" {
+  type = string
+}
 
-variable "vnet_name" {}
-variable "sku_name" {}
-variable "virtualNetworkType" {}
-variable "department" {}
-variable "common_tags" {}
+variable "vnet_name" {
+  type = string
+}
+variable "sku_name" {
+  type = string
+}
+variable "virtual_network_type" {
+  type = string
+}
+variable "department" {
+  type = string
+}
+variable "common_tags" {
+}
 
 variable "publisher_email" {
   default = "api-mangement@hmcts.net"

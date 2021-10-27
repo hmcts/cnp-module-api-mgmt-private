@@ -28,7 +28,7 @@ resource "azurerm_template_deployment" "apim" {
     publisherName           = var.publisher_name
     subnetResourceId        = data.azurerm_subnet.api-mgmt-subnet.id
     notificationSenderEmail = var.notification_sender_email
-    virtualNetworkType      = var.virtualNetworkType
+    virtualNetworkType      = var.virtual_network_type
     publicIpAddressId       = azurerm_public_ip.apim.id
     environment             = [for x in keys(local.env_mapping) : x if contains(local.env_mapping[x], var.env)][0]
     criticality             = local.criticality[var.env]
