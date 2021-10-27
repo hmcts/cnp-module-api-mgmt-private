@@ -30,7 +30,7 @@ resource "azurerm_template_deployment" "apim" {
     notificationSenderEmail = var.notification_sender_email
     virtualNetworkType      = var.virtual_network_type
     publicIpAddressId       = azurerm_public_ip.apim.id
-    environmentironment     = [for x in keys(local.environment_mapping) : x if contains(local.environment_mapping[x], var.environment)][0]
+    environment             = [for x in keys(local.environment_mapping) : x if contains(local.environment_mapping[x], var.environment)][0]
     criticality             = local.criticality[var.environment]
   }
 }
