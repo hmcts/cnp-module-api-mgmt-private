@@ -7,3 +7,5 @@
 *.swp
 *.iml
 *.idea
+.terraform
+.terraform.lock.hcl

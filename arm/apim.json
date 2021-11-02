@@ -70,6 +70,18 @@
       "metadata": {
         "description": "Public IP Address ID"
       }
+    },
+    "leRootCertData": {
+      "type": "string",
+      "metadata": {
+        "description": "Lets Encrypt Root Certificate data"
+      }
+    },
+    "leIntermediateCertData": {
+      "type": "string",
+      "metadata": {
+        "description": "Lets Encrypt Intermediate Certificate data"
+      }
     }
     },
     "variables": {
@@ -112,6 +124,16 @@
                 "defaultSslBinding": true,
                 "certificateSource": "BuiltIn"
             }
+        ],
+        "certificates": [
+          {
+            "encodedCertificate": "parameters('leRootCertData')",
+            "storeName": "Root"
+          },
+          {
+            "encodedCertificate": "parameters('leIntermediateCertData')",
+            "storeName": "CertificateAuthority"
+          }
         ]
       },
       "zones": "[if(equals(parameters('sku_name'), 'Premium'), variables('zones'), json('null'))]"

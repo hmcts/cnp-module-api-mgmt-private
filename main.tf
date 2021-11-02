@@ -32,6 +32,8 @@ resource "azurerm_template_deployment" "apim" {
     publicIpAddressId       = azurerm_public_ip.apim.id
     environment             = [for x in keys(local.environment_mapping) : x if contains(local.environment_mapping[x], var.environment)][0]
     criticality             = local.criticality[var.environment]
+    leIntermediateCertData  = filebase64("certificates/lets-encrypt-r3.cer")
+    leRootCertData          = filebase64("certificates/isrgrootx1.cer")
   }
 }
 
