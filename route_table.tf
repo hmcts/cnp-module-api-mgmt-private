@@ -20,3 +20,8 @@ resource "azurerm_route" "azure_control_plane" {
   address_prefix      = "51.145.56.125/32"
   next_hop_type       = "Internet"
 }
+
+resource "azurerm_subnet_route_table_association" "example" {
+  subnet_id      = azurerm_subnet.example.id
+  route_table_id = data.azurerm_subnet.api-mgmt-subnet.id
+}
