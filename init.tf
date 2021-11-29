@@ -8,7 +8,7 @@ locals {
 
   acmekv = var.department == "sds" ? "dtssds" : "dcdcftapps"
 
-  key_vault_environment = (var.environment == "sbox") ? "sandbox" : "${(var.environment == "perftest") ? "test" : "${var.environment}"}"
+  key_vault_environment = (var.environment == "sbox") ? "sandbox" : "${(var.environment == "perftest") ? "perftest" : "${var.environment}"}"
 
   cert_url = replace(data.azurerm_key_vault_certificate.certificate.secret_id, "/${data.azurerm_key_vault_certificate.certificate.version}", "")
   criticality = {
