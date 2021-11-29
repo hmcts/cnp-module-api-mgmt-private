@@ -48,6 +48,9 @@ locals {
     sbox = {
       subscription = "b72ab7b7-723f-4b18-b6f6-03b0f2c6a1bb"
     }
+    test = {
+      subscription = "8a07fdcd-6abd-48b3-ad88-ff737a4b9e3c"
+    }
   }
 
   acmedtssdsapps = {
