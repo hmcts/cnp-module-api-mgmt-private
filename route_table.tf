@@ -22,6 +22,6 @@ resource "azurerm_route" "azure_control_plane" {
 }
 
 resource "azurerm_subnet_route_table_association" "api-mgmt-subnet" {
-  subnet_id      = azurerm_subnet.example.id
-  route_table_id = data.azurerm_subnet.api-mgmt-subnet.id
+  subnet_id      = data.azurerm_subnet.api-mgmt-subnet.id
+  route_table_id = azurerm_route_table.route_table.id
 }
