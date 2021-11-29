@@ -24,4 +24,16 @@ variable "notification_sender_email" {
   default = "apimgmt-noreply@mail.windowsazure.com"
 }
 
+variable "route_name" {
+  default = "default"
+}
+variable "route_address_prefix" {
+  default = "0.0.0.0/0"
+}
+variable "route_next_hop_type" {
+  default = "VirtualAppliance"
+}
 
+variable "route_next_hop_in_ip_address" {
+  default = "10.10.1.1"
+}
