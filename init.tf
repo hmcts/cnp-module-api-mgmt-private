@@ -8,7 +8,7 @@ locals {
 
   acmekv = var.department == "sds" ? "dtssds" : "dcdcftapps"
 
-  key_vault_environment = (var.environment == "sbox") ? "sandbox" : "${(var.environment == "perftest") ? "test" : "${var.environment}"}"
+  key_vault_environment = (var.environment == "sbox") ? "sandbox" : var.environment
 
   cert_url = replace(data.azurerm_key_vault_certificate.certificate.secret_id, "/${data.azurerm_key_vault_certificate.certificate.version}", "")
   criticality = {
@@ -47,6 +47,9 @@ locals {
   acmedcdcftapps = {
     sbox = {
       subscription = "b72ab7b7-723f-4b18-b6f6-03b0f2c6a1bb"
+    }
+    test = {
+      subscription = "8a07fdcd-6abd-48b3-ad88-ff737a4b9e3c"
     }
   }
 
