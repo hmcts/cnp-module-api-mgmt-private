@@ -11,7 +11,7 @@ data "azurerm_api_management" "apim" {
 
 data "azurerm_key_vault" "main" {
   provider            = azurerm.acmedcdcftapps
-  name                = "acme${local.acmekv}${local.environment}"
+  name                = "acme${local.acmekv}${local.acme_environment}"
   resource_group_name = "${var.department}-platform-${local.environment}-rg"
 }
 
