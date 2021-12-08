@@ -2,7 +2,7 @@ locals {
   name = "${var.department}-api-mgmt-${local.environment}"
   # platform_api_mgmt_sku = var.environment == "prod" ? "Premium_1" : "Developer_1"
 
-  environment = (var.environment == "aat") ? "stg" : (var.environment == "sandbox") ? "sbox" : (var.environment == "preview") ? "dev" : "${(var.environment == "perftest") ? "test" : "${var.environment}"}"
+  environment = (var.environment == "aat") ? "stg" : (var.environment == "sandbox") ? "sbox" : "${(var.environment == "perftest") ? "test" : "${var.environment}"}"
 
   department = var.department == "sds" ? "dtssds" : "dcdcft"
 
@@ -51,7 +51,7 @@ locals {
     test = {
       subscription = "8a07fdcd-6abd-48b3-ad88-ff737a4b9e3c"
     }
-    dev = {
+    preview = {
       subscription = "8b6ea922-0862-443e-af15-6056e1c9b9a4"
     }
   }
@@ -64,7 +64,7 @@ locals {
 
   palo_environment_mapping = {
     sbox    = ["sbox"]
-    nonprod = ["demo", "ithc", "test", "dev"]
+    nonprod = ["demo", "ithc", "test", "preview"]
     prod    = ["prod", "stg"]
   }
 
