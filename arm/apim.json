@@ -81,7 +81,7 @@
       "name": "[parameters('Name')]",
       "tags": {
         "application": "core",
-        "builtFrom": "hmcts/sharedservices-azure-platform",
+        "builtFrom": "hmcts/sds-azure-platform",
         "businessArea": "Cross-Cutting",
         "criticality": "[parameters('criticality')]",
         "environment": "[parameters('environment')]"
