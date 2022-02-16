@@ -38,7 +38,7 @@ resource "azurerm_public_ip" "apim" {
 resource "azurerm_api_management" "apim" {
   name                      = local.name
   location                  = var.location
-  resource_group_name       = var.vnet_rg_name
+  resource_group_name       = var.virtual_network_resource_group
   publisher_name            = var.publisher_name
   publisher_email           = var.publisher_email
   notification_sender_email = var.notification_sender_email
