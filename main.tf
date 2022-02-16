@@ -5,7 +5,7 @@ data "azurerm_subnet" "api-mgmt-subnet" {
 }
 
 resource "azurerm_public_ip" "apim" {
-  name                = "${var.department}-api-mgmt-${varech.environment}-private-pip"
+  name                = "${var.department}-api-mgmt-${var.environment}-private-pip"
   resource_group_name = var.virtual_network_resource_group
   location            = var.location
   allocation_method   = "Static"
