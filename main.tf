@@ -5,7 +5,7 @@ data "azurerm_subnet" "api-mgmt-subnet" {
 }
 
 resource "azurerm_public_ip" "apim" {
-  name                = "${var.department}-api-mgmt-${var.environment}-private-pip"
+  name                = "${var.department}-api-mgmt-${varech.environment}-private-pip"
   resource_group_name = var.virtual_network_resource_group
   location            = var.location
   allocation_method   = "Static"
@@ -53,11 +53,15 @@ resource "azurerm_api_management" "apim" {
   }
 
   zones               = local.zones
-  public_ip_addresses = azurerm_public_ip.example.id
+  public_ip_addresses = azurerm_public_ip.apim.id
 
   sku_name = local.sku_name
 
   tags = var.common_tags
+
+  depends_on = [
+    azurerm_public_ip.apim
+  ]
 }
 
 resource "azurerm_role_assignment" "apim" {
