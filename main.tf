@@ -56,6 +56,8 @@ resource "azurerm_api_management" "apim" {
   public_ip_addresses = azurerm_public_ip.example.id
 
   sku_name = local.sku_name
+
+  tags = var.common_tags
 }
 
 resource "azurerm_role_assignment" "apim" {
@@ -65,7 +67,7 @@ resource "azurerm_role_assignment" "apim" {
   role_definition_name = "Key Vault Secrets User"
 
   depends_on = [
-    azurerm_template_deployment.apim,
+    azurerm_api_management.apim,
     data.azurerm_api_management.apim
   ]
 }
@@ -82,7 +84,7 @@ resource "azurerm_api_management_custom_domain" "api-management-custom-domain" {
 
   depends_on = [
     data.azurerm_key_vault_certificate.certificate,
-    azurerm_template_deployment.apim,
+    azurerm_api_management.apim,
     data.azurerm_api_management.apim,
     azurerm_role_assignment.apim
   ]
