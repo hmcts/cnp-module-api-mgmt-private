@@ -53,7 +53,7 @@ resource "azurerm_api_management" "apim" {
   }
 
   zones               = local.zones
-  public_ip_addresses = data.azurerm_public_ip.apim.id
+  public_ip_address_id = azurerm_public_ip.apim.id
 
   sku_name = local.sku_name
 
