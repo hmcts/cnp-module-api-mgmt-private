@@ -9,6 +9,7 @@ resource "azurerm_public_ip" "apim" {
   resource_group_name = var.virtual_network_resource_group
   location            = var.location
   allocation_method   = "Static"
+  domain_name_label   = "${var.department}-api-mgmt-${var.environment}-pip"
 
   tags = var.common_tags
   sku  = "Standard"
