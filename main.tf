@@ -53,10 +53,10 @@ resource "azurerm_api_management" "apim" {
     type = "SystemAssigned"
   }
 
-  zones                = local.zones
-  public_ip_address_id = var.sku_name == "Premium" ? azurerm_public_ip.apim.id : null
-
-  sku_name = local.sku_name
+  zones = local.zones
+  # public_ip_address_id = var.sku_name == "Premium" ? azurerm_public_ip.apim.id : null
+  public_ip_addresses = var.sku_name == "Premium" ? azurerm_public_ip.apim.ip_address : null
+  sku_name            = local.sku_name
 
   tags = var.common_tags
 
