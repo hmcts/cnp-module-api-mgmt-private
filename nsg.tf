@@ -98,7 +98,7 @@ resource "azurerm_network_security_rule" "deny" {
   name                        = "deny"
   priority                    = 500
   direction                   = "Inbound"
-  access                      = "Allow"
+  access                      = "Deny"
   protocol                    = "*"
   source_port_range           = "*"
   destination_port_range      = "*"
