@@ -5,7 +5,7 @@ data "azurerm_api_management" "apim" {
   resource_group_name = var.virtual_network_resource_group
 
   depends_on = [
-    azurerm_template_deployment.apim
+    azurerm_api_management.apim
   ]
 }
 
