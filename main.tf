@@ -16,26 +16,6 @@ resource "azurerm_public_ip" "apim" {
 
 }
 
-# resource "azurerm_template_deployment" "apim" {
-#   name                = "core-infra-subnet-apimgmt-${local.environment}"
-#   resource_group_name = var.virtual_network_resource_group
-#   deployment_mode     = "Incremental"
-#   template_body       = file("${path.module}/arm/apim.json")
-#   parameters = {
-#     name                    = local.name
-#     location                = var.location
-#     sku_name                = var.sku_name
-#     publisherEmail          = var.publisher_email
-#     publisherName           = var.publisher_name
-#     subnetResourceId        = data.azurerm_subnet.api-mgmt-subnet.id
-#     notificationSenderEmail = var.notification_sender_email
-#     virtualNetworkType      = var.virtual_network_type
-#     publicIpAddressId       = azurerm_public_ip.apim.id
-#     environment             = [for x in keys(local.environment_mapping) : x if contains(local.environment_mapping[x], var.environment)][0]
-#     criticality             = local.criticality[var.environment]
-#   }
-# }
-
 resource "azurerm_api_management" "apim" {
   name                      = local.name
   location                  = var.location
@@ -53,9 +33,9 @@ resource "azurerm_api_management" "apim" {
     type = "SystemAssigned"
   }
 
-  zones = local.zones
+  zones                = local.zones
   public_ip_address_id = var.sku_name == "Premium" ? azurerm_public_ip.apim.id : null
-  sku_name            = local.sku_name
+  sku_name             = local.sku_name
 
   tags = var.common_tags
 
