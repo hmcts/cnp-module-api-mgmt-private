@@ -2,6 +2,7 @@ resource "azurerm_route_table" "route_table" {
   name                = "${local.name}-route-table"
   location            = var.location
   resource_group_name = var.virtual_network_resource_group
+  tags                = var.common_tags
 }
 
 resource "azurerm_route" "default_route" {
