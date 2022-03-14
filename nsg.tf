@@ -2,7 +2,7 @@ resource "azurerm_network_security_group" "apim" {
   name                = "${local.name}-nsg"
   location            = var.location
   resource_group_name = var.virtual_network_resource_group
-
+  tags                = var.common_tags
 }
 
 resource "azurerm_subnet_network_security_group_association" "apim" {

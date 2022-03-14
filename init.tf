@@ -81,7 +81,7 @@ locals {
 
   palo_environment_mapping = {
     sbox    = ["sbox"]
-    nonprod = ["dev","demo", "ithc", "test", "preview"]
+    nonprod = ["dev", "demo", "ithc", "test", "preview"]
     prod    = ["prod", "stg"]
   }
 
