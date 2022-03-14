@@ -71,6 +71,12 @@ locals {
     sbox = {
       subscription = "a8140a9e-f1b0-481f-a4de-09e2ee23f7ab"
     }
+    dev = {
+      subscription = "867a878b-cb68-4de5-9741-361ac9e178b6"
+    }
+    stg = {
+      subscription = "74dacd4f-a248-45bb-a2f0-af700dc4cf68"
+    }
   }
 
   palo_environment_mapping = {
