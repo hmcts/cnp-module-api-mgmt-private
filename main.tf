@@ -59,11 +59,14 @@ resource "azurerm_role_assignment" "apim" {
 resource "azurerm_api_management_custom_domain" "api-management-custom-domain" {
   api_management_id = data.azurerm_api_management.apim.id
 
-  proxy {
-    host_name                    = "${var.department}-api-mgmt.${local.key_vault_environment}.platform.hmcts.net"
-    key_vault_id                 = local.cert_url
-    negotiate_client_certificate = true
-    default_ssl_binding          = true
+  dynamic "proxy" {
+    for_each = toset(local.custom_domains)
+    content {
+      host_name                    = each.key
+      key_vault_id                 = local.cert_url
+      negotiate_client_certificate = true
+      default_ssl_binding          = true
+    }
   }
 
   depends_on = [
@@ -72,4 +75,9 @@ resource "azurerm_api_management_custom_domain" "api-management-custom-domain" {
     data.azurerm_api_management.apim,
     azurerm_role_assignment.apim
   ]
+}
+
+locals {
+  additional_custom_domains = [for prefix in var.additional_custom_domain_prefixes : "${prefix}.platform.hmcts.net"]
+  custom_domains = tolist(local.additional_custom_domains, "${var.department}-api-mgmt.${local.key_vault_environment}.platform.hmcts.net")
 }
