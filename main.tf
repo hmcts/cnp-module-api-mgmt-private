@@ -60,9 +60,10 @@ resource "azurerm_api_management_custom_domain" "api-management-custom-domain" {
   api_management_id = data.azurerm_api_management.apim.id
 
   dynamic "proxy" {
+    iterator = "proxy"
     for_each = toset(local.custom_domains)
     content {
-      host_name                    = each.key
+      host_name                    = proxy.value
       key_vault_id                 = local.cert_url
       negotiate_client_certificate = true
       default_ssl_binding          = true
