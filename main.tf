@@ -78,6 +78,8 @@ resource "azurerm_api_management_custom_domain" "api-management-custom-domain" {
 }
 
 locals {
-  additional_custom_domains = [for prefix in var.additional_custom_domain_prefixes : "${prefix}.platform.hmcts.net"]
-  custom_domains = tolist(local.additional_custom_domains, "${var.department}-api-mgmt.${local.key_vault_environment}.platform.hmcts.net")
+  custom_domains = [
+    "${var.department}-api-mgmt.${local.key_vault_environment}.platform.hmcts.net",
+    "${var.department}-api-mgmt-appgw.${local.key_vault_environment}.platform.hmcts.net"
+  ]
 }

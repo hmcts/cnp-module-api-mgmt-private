@@ -37,7 +37,3 @@ variable "route_next_hop_type" {
 variable "route_next_hop_in_ip_address" {
   default = "10.10.1.1"
 }
-
-variable "additional_custom_domain_prefixes" {
-  default = []
-}
