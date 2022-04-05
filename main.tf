@@ -66,8 +66,7 @@ resource "azurerm_api_management_custom_domain" "api-management-custom-domain" {
     default_ssl_binding          = true
   }
 
-  # TBD - Refactor to use dynamic block
-    proxy {
+  proxy {
     host_name                    = "${var.department}-api-mgmt-appgw.${local.key_vault_environment}.platform.hmcts.net"
     key_vault_id                 = local.cert_url
     negotiate_client_certificate = true
