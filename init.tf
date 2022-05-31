@@ -83,6 +83,9 @@ locals {
     prod = {
       subscription = "5ca62022-6aa2-4cee-aaa7-e7536c8d566c"
     }
+    test = {
+      subscription = "3eec5bde-7feb-4566-bfb6-805df6e10b90"
+    }
   }
 
   palo_environment_mapping = {
