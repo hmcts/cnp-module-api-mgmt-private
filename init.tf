@@ -86,6 +86,12 @@ locals {
     test = {
       subscription = "3eec5bde-7feb-4566-bfb6-805df6e10b90"
     }
+    ithc = {
+      subscription = "ba71a911-e0d6-4776-a1a6-079af1df7139"
+    }
+    demo = {
+      subscription = "c68a4bed-4c3d-4956-af51-4ae164c1957c"
+    }
   }
 
   palo_environment_mapping = {
