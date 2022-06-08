@@ -68,6 +68,9 @@ locals {
     ithc = {
       subscription = "62864d44-5da9-4ae9-89e7-0cf33942fa09"
     }
+    prod = {
+      subscription = "8cbc6f36-7c56-4963-9d36-739db5d00b27"
+    }
   }
 
   acmedtssdsapps = {
