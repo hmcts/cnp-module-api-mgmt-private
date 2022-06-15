@@ -59,14 +59,14 @@ resource "azurerm_role_assignment" "apim" {
 resource "azurerm_api_management_custom_domain" "api-management-custom-domain" {
   api_management_id = data.azurerm_api_management.apim.id
 
-  proxy {
+  gateway {
     host_name                    = (local.key_vault_environment == "prod") ? "${var.department}-api-mgmt.platform.hmcts.net" : "${var.department}-api-mgmt.${local.key_vault_environment}.platform.hmcts.net"
     key_vault_id                 = local.cert_url
     negotiate_client_certificate = true
     default_ssl_binding          = true
   }
 
-  proxy {
+  gateway {
     host_name                    = (local.key_vault_environment == "prod") ? "${var.department}-api-mgmt-appgw.platform.hmcts.net" : "${var.department}-api-mgmt-appgw.${local.key_vault_environment}.platform.hmcts.net"
     key_vault_id                 = local.cert_url
     negotiate_client_certificate = true

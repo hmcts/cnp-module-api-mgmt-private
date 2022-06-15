@@ -15,7 +15,7 @@ resource "azurerm_network_security_rule" "palo" {
   priority                    = 100
   direction                   = "Inbound"
   access                      = "Allow"
-  protocol                    = "tcp"
+  protocol                    = "Tcp"
   source_port_range           = "*"
   destination_port_range      = "80"
   source_address_prefixes     = split(",", local.palo_ip_addresses[[for x in keys(local.palo_environment_mapping) : x if contains(local.palo_environment_mapping[x], local.environment)][0]].addresses)
@@ -29,7 +29,7 @@ resource "azurerm_network_security_rule" "apimanagement" {
   priority                    = 101
   direction                   = "Inbound"
   access                      = "Allow"
-  protocol                    = "tcp"
+  protocol                    = "Tcp"
   source_port_range           = "*"
   destination_port_range      = "3443"
   source_address_prefix       = "ApiManagement"
@@ -43,7 +43,7 @@ resource "azurerm_network_security_rule" "vpn" {
   priority                    = 102
   direction                   = "Inbound"
   access                      = "Allow"
-  protocol                    = "tcp"
+  protocol                    = "Tcp"
   source_port_range           = "*"
   destination_port_ranges     = [80, 443]
   source_address_prefix       = "10.99.0.0/18"
@@ -57,7 +57,7 @@ resource "azurerm_network_security_rule" "AccessRedisService" {
   priority                    = 103
   direction                   = "Inbound"
   access                      = "Allow"
-  protocol                    = "tcp"
+  protocol                    = "Tcp"
   source_port_range           = "*"
   destination_port_ranges     = [6381, 6382, 6383]
   source_address_prefix       = "VirtualNetwork"
@@ -71,7 +71,7 @@ resource "azurerm_network_security_rule" "SyncCounter" {
   priority                    = 104
   direction                   = "Inbound"
   access                      = "Allow"
-  protocol                    = "udp"
+  protocol                    = "Udp"
   source_port_range           = "*"
   destination_port_ranges     = ["4290"]
   source_address_prefix       = "VirtualNetwork"
@@ -85,7 +85,7 @@ resource "azurerm_network_security_rule" "loadbalancer" {
   priority                    = 105
   direction                   = "Inbound"
   access                      = "Allow"
-  protocol                    = "tcp"
+  protocol                    = "Tcp"
   source_port_range           = "*"
   destination_port_range      = "*"
   source_address_prefix       = "VirtualNetwork"
