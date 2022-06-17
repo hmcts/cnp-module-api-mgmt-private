@@ -10,6 +10,7 @@ resource "azurerm_public_ip" "apim" {
   location            = var.location
   allocation_method   = "Static"
   domain_name_label   = "${var.department}-api-mgmt-${var.environment}-pip"
+  zones               = local.zones
 
   tags = var.common_tags
   sku  = "Standard"
