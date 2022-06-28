@@ -23,7 +23,10 @@ resource "azurerm_api_management_api_operation" "apim" {
     status_code = 200
     representation {
       content_type = "application/json"
-      sample       = "{\"status\": \"Up\"}"
+      example {
+        name  = "sample value"
+        value = "{\"status\": \"Up\"}"
+      }
     }
   }
 
