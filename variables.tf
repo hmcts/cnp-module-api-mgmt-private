@@ -13,7 +13,7 @@ variable "department" {}
 variable "common_tags" {}
 
 variable "publisher_email" {
-  default = "DTSPlatformOps@HMCTS.NET"
+  default = "DTSPlatformOperations@justice.gov.uk"
 }
 
 variable "publisher_name" {
