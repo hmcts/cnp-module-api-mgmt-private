@@ -39,7 +39,6 @@ resource "azurerm_api_management" "apim" {
   sku_name             = local.sku_name
 
   security {
-
     tls_rsa_with_aes256_cbc_sha_ciphers_enabled = (var.department == "sds") ? true : false
     tls_rsa_with_aes128_cbc_sha_ciphers_enabled = (var.department == "sds") ? true : false
     triple_des_ciphers_enabled                  = (var.department == "sds") ? true : false
