@@ -38,6 +38,13 @@ resource "azurerm_api_management" "apim" {
   public_ip_address_id = var.sku_name == "Premium" ? azurerm_public_ip.apim.id : null
   sku_name             = local.sku_name
 
+  security {
+
+    tls_rsa_with_aes256_cbc_sha_ciphers_enabled = (var.department == "sds") ? true : false
+    tls_rsa_with_aes128_cbc_sha_ciphers_enabled = (var.department == "sds") ? true : false
+    triple_des_ciphers_enabled                  = (var.department == "sds") ? true : false
+  }
+
   tags = var.common_tags
 
   depends_on = [
