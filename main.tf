@@ -38,6 +38,12 @@ resource "azurerm_api_management" "apim" {
   public_ip_address_id = var.sku_name == "Premium" ? azurerm_public_ip.apim.id : null
   sku_name             = local.sku_name
 
+  security {
+    tls_rsa_with_aes256_cbc_sha_ciphers_enabled = (var.department == "sds") ? true : false
+    tls_rsa_with_aes128_cbc_sha_ciphers_enabled = (var.department == "sds") ? true : false
+    triple_des_ciphers_enabled                  = (var.department == "sds") ? true : false
+  }
+
   tags = var.common_tags
 
   depends_on = [
@@ -69,6 +75,13 @@ resource "azurerm_api_management_custom_domain" "api-management-custom-domain" {
 
   gateway {
     host_name                    = (local.key_vault_environment == "prod") ? "${var.department}-api-mgmt-appgw.platform.hmcts.net" : "${var.department}-api-mgmt-appgw.${local.key_vault_environment}.platform.hmcts.net"
+    key_vault_id                 = local.cert_url
+    negotiate_client_certificate = true
+    default_ssl_binding          = true
+  }
+
+  gateway {
+    host_name                    = (local.key_vault_environment == "prod") ? "${var.department}-mtls-api-mgmt-appgw.platform.hmcts.net" : "${var.department}-mtls-api-mgmt-appgw.${local.key_vault_environment}.platform.hmcts.net"
     key_vault_id                 = local.cert_url
     negotiate_client_certificate = true
     default_ssl_binding          = true
