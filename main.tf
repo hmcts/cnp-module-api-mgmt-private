@@ -74,6 +74,13 @@ resource "azurerm_api_management_custom_domain" "api-management-custom-domain" {
     default_ssl_binding          = true
   }
 
+  gateway {
+    host_name                    = (local.key_vault_environment == "prod") ? "${var.department}-mtls-api-mgmt-appgw.platform.hmcts.net" : "${var.department}-mtls-api-mgmt-appgw.${local.key_vault_environment}.platform.hmcts.net"
+    key_vault_id                 = local.cert_url
+    negotiate_client_certificate = true
+    default_ssl_binding          = true
+  }
+
   depends_on = [
     data.azurerm_key_vault_certificate.certificate,
     azurerm_api_management.apim,
