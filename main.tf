@@ -26,6 +26,8 @@ resource "azurerm_api_management" "apim" {
   notification_sender_email = var.notification_sender_email
   virtual_network_type      = var.virtual_network_type
 
+  hostname_configuration {}
+
   virtual_network_configuration {
     subnet_id = data.azurerm_subnet.api-mgmt-subnet.id
   }
@@ -62,6 +64,39 @@ resource "azurerm_role_assignment" "apim" {
     data.azurerm_api_management.apim
   ]
 }
+
+resource "azurerm_api_management_custom_domain" "api-management-custom-domain" {
+  api_management_id = data.azurerm_api_management.apim.id
+
+  gateway {
+    host_name                    = (local.key_vault_environment == "prod") ? "${var.department}-api-mgmt.platform.hmcts.net" : "${var.department}-api-mgmt.${local.key_vault_environment}.platform.hmcts.net"
+    key_vault_id                 = local.cert_url
+    negotiate_client_certificate = true
+    default_ssl_binding          = true
+  }
+
+  gateway {
+    host_name                    = (local.key_vault_environment == "prod") ? "${var.department}-api-mgmt-appgw.platform.hmcts.net" : "${var.department}-api-mgmt-appgw.${local.key_vault_environment}.platform.hmcts.net"
+    key_vault_id                 = local.cert_url
+    negotiate_client_certificate = true
+    default_ssl_binding          = true
+  }
+
+  gateway {
+    host_name                    = (local.key_vault_environment == "prod") ? "${var.department}-mtls-api-mgmt-appgw.platform.hmcts.net" : "${var.department}-mtls-api-mgmt-appgw.${local.key_vault_environment}.platform.hmcts.net"
+    key_vault_id                 = local.cert_url
+    negotiate_client_certificate = true
+    default_ssl_binding          = true
+  }
+
+  depends_on = [
+    data.azurerm_key_vault_certificate.certificate,
+    azurerm_api_management.apim,
+    data.azurerm_api_management.apim,
+    azurerm_role_assignment.apim
+  ]
+}
+
 
 resource "azurerm_api_management_logger" "apim" {
   name                = "${local.name}-logger"
