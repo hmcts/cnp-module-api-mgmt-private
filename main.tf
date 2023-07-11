@@ -26,8 +26,6 @@ resource "azurerm_api_management" "apim" {
   notification_sender_email = var.notification_sender_email
   virtual_network_type      = var.virtual_network_type
 
-  hostname_configuration {}
-
   virtual_network_configuration {
     subnet_id = data.azurerm_subnet.api-mgmt-subnet.id
   }
