@@ -1,5 +1,5 @@
 variable "location" {
-  default = "UK South"
+  default = "uksouth"
 }
 
 variable "environment" {}
