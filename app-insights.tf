@@ -11,6 +11,6 @@ module "application_insights" {
 }
 
 moved {
-  from = azurerm_application_insights.appinsights
+  from = azurerm_application_insights.apim
   to   = module.application_insights.azurerm_application_insights.this
 }
