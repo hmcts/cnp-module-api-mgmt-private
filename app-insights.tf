@@ -3,7 +3,7 @@ module "application_insights" {
 
   env     = var.env
   product = var.product
-  name    = "${var.department}-api-mgmt-appinsights"
+  name    = "${var.department}-api-mgmt"
 
   resource_group_name = var.virtual_network_resource_group
 
