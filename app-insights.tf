@@ -3,14 +3,14 @@ module "application_insights" {
 
   env     = var.env
   product = var.product
-  name    = "${var.product}-${var.component}-appinsights"
+  name    = "${var.department}-api-mgmt-appinsights"
 
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = var.virtual_network_resource_group
 
   common_tags = var.common_tags
 }
 
 moved {
-  from = azurerm_application_insights.appinsights
+  from = azurerm_application_insights.apim
   to   = module.application_insights.azurerm_application_insights.this
 }
