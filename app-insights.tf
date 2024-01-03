@@ -1,5 +1,5 @@
 module "application_insights" {
-  source = "git@github.com:hmcts/terraform-module-application-insights?ref=main"
+  source = "git::https://github.com/hmcts/terraform-module-application-insights?ref=DTSPO-15909-Migrate-to-workspace-AI"
 
   env     = var.env
   product = var.product
