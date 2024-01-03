@@ -2,6 +2,7 @@ variable "location" {
   default = "uksouth"
 }
 
+variable "environment" {}
 variable "env" {}
 variable "product" {}
 
