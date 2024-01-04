@@ -1,8 +1,10 @@
 variable "location" {
-  default = "UK South"
+  default = "uksouth"
 }
 
 variable "environment" {}
+variable "env" {}
+variable "product" {}
 
 variable "virtual_network_resource_group" {}
 
