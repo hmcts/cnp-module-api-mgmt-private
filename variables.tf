@@ -3,8 +3,6 @@ variable "location" {
 }
 
 variable "environment" {}
-variable "env" {}
-variable "product" {}
 
 variable "virtual_network_resource_group" {}
 
