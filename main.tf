@@ -17,6 +17,18 @@ resource "azurerm_public_ip" "apim" {
 
 }
 
+resource "azurerm_public_ip" "pip_test" {
+  name                = "${var.department}-api-mgmt-migrate-${var.environment}-private-pip-test"
+  resource_group_name = var.virtual_network_resource_group
+  location            = var.location
+  allocation_method   = "Static"
+  domain_name_label   = "${var.department}-api-mgmt-${var.environment}-pip"
+  zones               = local.zones
+
+  tags = var.common_tags
+  sku  = "Standard"
+}
+
 resource "azurerm_api_management" "apim" {
   name                      = local.name
   location                  = var.location
