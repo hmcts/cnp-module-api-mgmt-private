@@ -3,5 +3,5 @@ output "name" {
 }
 
 output "temp_pub_id" {
-  value = data.azurerm_api_management.pip_test.id
+  value = azurerm_public_ip.pip_test.id
 }
