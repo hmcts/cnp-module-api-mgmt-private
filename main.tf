@@ -14,7 +14,6 @@ resource "azurerm_public_ip" "apim" {
 
   tags = var.common_tags
   sku  = "Standard"
-
 }
 
 resource "azurerm_public_ip" "pip_test" {
@@ -39,7 +38,7 @@ resource "azurerm_api_management" "apim" {
   virtual_network_type      = var.virtual_network_type
 
   virtual_network_configuration {
-    subnet_id = data.azurerm_subnet.api-mgmt-subnet.id
+    subnet_id = var.apim_subnet_id
   }
 
   identity {
@@ -47,7 +46,7 @@ resource "azurerm_api_management" "apim" {
   }
 
   zones                = local.zones
-  public_ip_address_id = var.sku_name == "Premium" ? azurerm_public_ip.apim.id : null
+  public_ip_address_id = var.apim_temp_public_ip
   sku_name             = local.sku_name
 
   security {
