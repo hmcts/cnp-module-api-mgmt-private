@@ -1,5 +1,5 @@
 data "azurerm_subnet" "api-mgmt-subnet" {
-  name                 = "api-management"
+  name                 = "api-management" //var this
   virtual_network_name = var.virtual_network_name
   resource_group_name  = var.virtual_network_resource_group
 }
@@ -27,7 +27,7 @@ resource "azurerm_api_management" "apim" {
   virtual_network_type      = var.virtual_network_type
 
   virtual_network_configuration {
-    subnet_id = data.azurerm_subnet.api-mgmt-subnet.id
+    subnet_id = var.temp_subnet_id == null ? data.azurerm_subnet.api-mgmt-subnet.id : var.temp_subnet_id
   }
 
   identity {
@@ -35,7 +35,7 @@ resource "azurerm_api_management" "apim" {
   }
 
   zones                = local.zones
-  public_ip_address_id = var.sku_name == "Premium" ? azurerm_public_ip.apim.id : null
+  public_ip_address_id = var.temp_pip_id == null && local.sku_name == "Developer_1" ? azurerm_public_ip.apim.id : var.temp_pip_id
   sku_name             = local.sku_name
 
   security {
