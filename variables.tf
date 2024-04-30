@@ -40,5 +40,3 @@ variable "route_next_hop_in_ip_address" {
 
 variable "apim_subnet_id" {
 }
-variable "apim_temp_public_ip" {
-}
