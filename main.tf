@@ -18,12 +18,12 @@ resource "azurerm_public_ip" "apim" {
 }
 
 resource "azurerm_api_management" "apim" {
-  name                      = local.name
-  location                  = var.location
-  resource_group_name       = var.virtual_network_resource_group
-  publisher_name            = var.publisher_name
-  publisher_email           = var.publisher_email
-  notification_sender_email = var.notification_sender_email
+  name                      = data.azurerm_api_management.apim.name
+  location                  = data.azurerm_api_management.apim.location
+  resource_group_name       = data.azurerm_api_management.apim.virtual_network_resource_group
+  publisher_name            = data.azurerm_api_management.apim.publisher_name
+  publisher_email           = data.azurerm_api_management.apim.publisher_email
+  notification_sender_email = data.azurerm_api_management.apim.notification_sender_email
   virtual_network_type      = var.virtual_network_type
 
   virtual_network_configuration {
