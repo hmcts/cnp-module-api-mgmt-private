@@ -38,10 +38,6 @@ variable "route_next_hop_in_ip_address" {
   default = "10.10.1.1"
 }
 
-variable "temp_subnet_id" {
-  default = null
-}
-
-variable "temp_pip_id" {
-  default = null
+variable "trigger_migration" {
+  default = false
 }

@@ -44,7 +44,7 @@ resource "azurerm_api_management" "apim" {
   virtual_network_type      = var.virtual_network_type
 
   virtual_network_configuration {
-    subnet_id = data.azurerm_subnet.temp_subnet.id
+    subnet_id = var.trigger_migration == false ? data.azurerm_subnet.api-mgmt-subnet.id : data.azurerm_subnet.temp_subnet.id
   }
 
   identity {
