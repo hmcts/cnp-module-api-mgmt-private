@@ -44,7 +44,7 @@ resource "azurerm_api_management" "apim" {
   virtual_network_type      = var.virtual_network_type
 
   virtual_network_configuration {
-    subnet_id = var.trigger_migration == false ? data.azurerm_subnet.api-mgmt-subnet.id : data.azurerm_subnet.temp_subnet.id
+    subnet_id = var.trigger_migration == true ? data.azurerm_subnet.temp_subnet.id : data.azurerm_subnet.api-mgmt-subnet.id
   }
 
   identity {
@@ -52,7 +52,7 @@ resource "azurerm_api_management" "apim" {
   }
 
   zones                = local.zones
-  public_ip_address_id = var.sku_name == "Premium" ? azurerm_public_ip.apim.id : null
+  public_ip_address_id = var.trigger_migration == true ? azurerm_public_ip.temp_pip.id : null
   sku_name             = local.sku_name
 
   security {
