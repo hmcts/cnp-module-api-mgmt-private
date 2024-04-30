@@ -46,7 +46,7 @@ resource "azurerm_api_management" "apim" {
   }
 
   zones                = local.zones
-  public_ip_address_id = var.apim_temp_public_ip
+  public_ip_address_id = var.azurerm_public_ip.apim.id
   sku_name             = local.sku_name
 
   security {
