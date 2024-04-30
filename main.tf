@@ -1,5 +1,5 @@
 data "azurerm_subnet" "api-mgmt-subnet" {
-  name                 = "api-management" //var this
+  name                 = "api-management"
   virtual_network_name = var.virtual_network_name
   resource_group_name  = var.virtual_network_resource_group
 }
