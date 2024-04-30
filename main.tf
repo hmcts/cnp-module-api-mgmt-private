@@ -14,7 +14,24 @@ resource "azurerm_public_ip" "apim" {
 
   tags = var.common_tags
   sku  = "Standard"
+}
 
+// temp resources
+data "azurerm_subnet" "temp_subnet" {
+  name                 = "iaas"
+  virtual_network_name = var.virtual_network_name
+  resource_group_name  = var.virtual_network_resource_group
+}
+
+resource "azurerm_public_ip" "temp_pip" {
+  name                = "temp-pip"
+  resource_group_name = var.virtual_network_resource_group
+  location            = var.location
+  allocation_method   = "Static"
+  domain_name_label   = "temp-pip"
+
+  tags = module.ctags.common_tags
+  sku  = "Standard"
 }
 
 resource "azurerm_api_management" "apim" {
@@ -27,7 +44,7 @@ resource "azurerm_api_management" "apim" {
   virtual_network_type      = var.virtual_network_type
 
   virtual_network_configuration {
-    subnet_id = var.temp_subnet_id == null ? data.azurerm_subnet.api-mgmt-subnet.id : var.temp_subnet_id
+    subnet_id = data.azurerm_subnet.api-mgmt-subnet.id
   }
 
   identity {
@@ -35,7 +52,7 @@ resource "azurerm_api_management" "apim" {
   }
 
   zones                = local.zones
-  public_ip_address_id = var.temp_pip_id == null && local.sku_name == "Developer_1" ? azurerm_public_ip.apim.id : var.temp_pip_id
+  public_ip_address_id = local.sku_name == "Premium" ? azurerm_public_ip.apim.id : null
   sku_name             = local.sku_name
 
   security {
