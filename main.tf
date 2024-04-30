@@ -30,7 +30,7 @@ resource "azurerm_public_ip" "temp_pip" {
   allocation_method   = "Static"
   domain_name_label   = "temp-pip"
 
-  tags = module.ctags.common_tags
+  tags = var.common_tags
   sku  = "Standard"
 }
 
