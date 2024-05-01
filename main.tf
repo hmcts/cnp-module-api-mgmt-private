@@ -17,11 +17,20 @@ resource "azurerm_public_ip" "apim" {
 }
 
 // temp resources
+// use iaas for cft-api-mgmt-sbox only
 data "azurerm_subnet" "temp_subnet" {
   name                 = "iaas"
   virtual_network_name = var.virtual_network_name
   resource_group_name  = var.virtual_network_resource_group
 }
+
+// used for other env
+# resource "azurerm_subnet" "temp_subnet" {
+#   name                 = "temp-subnet"
+#   virtual_network_name = var.virtual_network_name
+#   resource_group_name  = var.virtual_network_resource_group
+#   address_prefixes     = [""] // need to variablise
+# }
 
 resource "azurerm_public_ip" "temp_pip" {
   name                = "temp-pip"
@@ -52,7 +61,7 @@ resource "azurerm_api_management" "apim" {
   }
 
   zones                = local.zones
-  public_ip_address_id = var.trigger_migration == true ? azurerm_public_ip.temp_pip.id : null
+  public_ip_address_id = var.trigger_migration == true ? azurerm_public_ip.temp_pip.id : azurerm_public_ip.apim.id
   sku_name             = local.sku_name
 
   security {
