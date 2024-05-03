@@ -6,6 +6,11 @@ data "azurerm_subnet" "temp_subnet" {
   resource_group_name  = var.virtual_network_resource_group
 }
 
+resource "azurerm_subnet_network_security_group_association" "apim" {
+  subnet_id                 = data.azurerm_subnet.temp_subnet.id
+  network_security_group_id = azurerm_network_security_group.apim.id
+}
+
 resource "azurerm_public_ip" "temp_pip" {
   name                = "${var.department}-api-mgmt-${var.environment}-private-temp-pip"
   resource_group_name = var.virtual_network_resource_group
