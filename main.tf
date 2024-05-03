@@ -122,7 +122,6 @@ resource "azurerm_api_management_custom_domain" "api-management-custom-domain" {
   ]
 }
 
-
 resource "azurerm_api_management_logger" "apim" {
   name                = "${local.name}-logger"
   api_management_name = azurerm_api_management.apim.name

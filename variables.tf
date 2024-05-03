@@ -46,7 +46,7 @@ variable "temp_subnet_address_prefix" {
   default = null
 
   validation {
-    condition = var.temp_subnet_address_prefix == null || var.temp_subnet_address_prefix == [""]
+    condition     = var.temp_subnet_address_prefix == null || var.temp_subnet_address_prefix == [""]
     error_message = "Temporary subnet prefix cannot be null or empty"
   }
 }
