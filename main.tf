@@ -1,4 +1,4 @@
-data "azurerm_subnet" "api_mgmt_subnet" {
+data "azurerm_subnet" "api-mgmt-subnet" {
   name                 = "api-management"
   virtual_network_name = var.virtual_network_name
   resource_group_name  = var.virtual_network_resource_group
@@ -54,7 +54,7 @@ resource "azurerm_api_management" "apim" {
   virtual_network_type      = var.virtual_network_type
 
   virtual_network_configuration {
-    subnet_id = var.trigger_migration == true ? data.azurerm_subnet.temp_subnet.id : data.azurerm_subnet.api_mgmt_subnet.id
+    subnet_id = var.trigger_migration == true ? data.azurerm_subnet.temp_subnet.id : data.azurerm_subnet.api-mgmt-subnet.id
   }
 
   identity {
