@@ -33,8 +33,10 @@ resource "azurerm_api_management" "apim" {
     type = "SystemAssigned"
   }
 
-  zones                = local.zones
-  public_ip_address_id = var.trigger_migration == true ? azurerm_public_ip.temp_pip.id : azurerm_public_ip.apim.id
+  zones = local.zones
+  // ithc is false, it's ip_id = null
+  // public_ip_address_id = var.sku_name == "Premium" ? azurerm_public_ip.apim.id : null
+  public_ip_address_id = (var.trigger_migration == true) ? azurerm_public_ip.temp_pip.id : (var.sku_name == "Premium" || var.environment == "sbox") ? azurerm_public_ip.apim.id : null
   sku_name             = local.sku_name
 
   security {
