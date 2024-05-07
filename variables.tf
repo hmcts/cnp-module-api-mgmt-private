@@ -41,12 +41,3 @@ variable "route_next_hop_in_ip_address" {
 variable "trigger_migration" {
   default = false
 }
-
-variable "temp_subnet_address_prefix" {
-  default = null
-
-  validation {
-    condition     = var.temp_subnet_address_prefix == null || var.temp_subnet_address_prefix == [""]
-    error_message = "Temporary subnet prefix cannot be null or empty"
-  }
-}
