@@ -31,11 +31,3 @@ resource "azurerm_public_ip" "temp_pip" {
   tags = var.common_tags
   sku  = "Standard"
 }
-
-// used for all other env
-# resource "azurerm_subnet" "temp_subnet" {
-#   name                 = "temp-subnet"
-#   virtual_network_name = var.virtual_network_name
-#   resource_group_name  = var.virtual_network_resource_group
-#   address_prefixes     = var.temp_subnet_address_prefix
-# }
