@@ -6,7 +6,7 @@ data "azurerm_subnet" "temp_subnet" {
   resource_group_name  = var.virtual_network_resource_group
 }
 
-resource "azurerm_subnet_network_security_group_association" "apim" {
+resource "azurerm_subnet_network_security_group_association" "apim_temp" {
   subnet_id                 = data.azurerm_subnet.temp_subnet.id
   network_security_group_id = azurerm_network_security_group.apim.id
 }
@@ -29,9 +29,4 @@ resource "azurerm_public_ip" "temp_pip" {
 #   virtual_network_name = var.virtual_network_name
 #   resource_group_name  = var.virtual_network_resource_group
 #   address_prefixes     = var.temp_subnet_address_prefix
-# }
-
-# resource "azurerm_subnet_network_security_group_association" "apim" {
-#   subnet_id                 = azurerm_subnet.temp_subnet.id
-#   network_security_group_id = azurerm_network_security_group.apim.id
 # }
