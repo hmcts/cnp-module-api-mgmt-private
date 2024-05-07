@@ -42,6 +42,6 @@ variable "trigger_migration" {
   default = false
 }
 
-variable "migration_env" {
-  default = null
+variable "trigger_migration_temp_pip" {
+  default = false
 }
