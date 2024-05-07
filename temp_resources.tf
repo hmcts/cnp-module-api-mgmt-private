@@ -12,11 +12,11 @@ resource "azurerm_subnet_network_security_group_association" "apim" {
 }
 
 resource "azurerm_public_ip" "temp_pip" {
-  name                = "${var.department}-api-mgmt-${var.environment}-private-temp-pip"
+  name                = "${var.department}-api-mgmt-${var.environment}-private-pip-temp"
   resource_group_name = var.virtual_network_resource_group
   location            = var.location
   allocation_method   = "Static"
-  domain_name_label   = "${var.department}-api-mgmt-${var.environment}-temp-pip"
+  domain_name_label   = "${var.department}-api-mgmt-${var.environment}-pip-temp"
   zones               = local.zones
 
   tags = var.common_tags
