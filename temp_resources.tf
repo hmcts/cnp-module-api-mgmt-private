@@ -15,7 +15,7 @@ resource "azurerm_subnet_network_security_group_association" "apim_temp" {
 
 resource "azurerm_subnet_route_table_association" "temp_subnet" {
   count          = (contains(["sbox"], var.environment) ? 1 : 0)
-  subnet_id      = data.azurerm_subnet.temp_subnet[0].id 
+  subnet_id      = data.azurerm_subnet.temp_subnet[0].id
   route_table_id = azurerm_route_table.route_table.id
 }
 
