@@ -41,3 +41,7 @@ variable "route_next_hop_in_ip_address" {
 variable "trigger_migration" {
   default = false
 }
+
+variable "migration_env" {
+  default = null
+}
