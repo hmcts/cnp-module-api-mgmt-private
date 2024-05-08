@@ -14,7 +14,6 @@ resource "azurerm_public_ip" "apim" {
 
   tags = var.common_tags
   sku  = "Standard"
-
 }
 
 resource "azurerm_api_management" "apim" {
@@ -27,7 +26,7 @@ resource "azurerm_api_management" "apim" {
   virtual_network_type      = var.virtual_network_type
 
   virtual_network_configuration {
-    subnet_id = data.azurerm_subnet.api-mgmt-subnet.id
+    subnet_id = var.trigger_migration == true ? data.azurerm_subnet.temp_subnet[0].id : data.azurerm_subnet.api-mgmt-subnet.id
   }
 
   identity {
@@ -35,7 +34,7 @@ resource "azurerm_api_management" "apim" {
   }
 
   zones                = local.zones
-  public_ip_address_id = var.sku_name == "Premium" ? azurerm_public_ip.apim.id : null
+  public_ip_address_id = (var.trigger_migration == true) ? azurerm_public_ip.temp_pip[0].id : (var.sku_name == "Premium" || var.environment == "sbox") ? azurerm_public_ip.apim.id : null
   sku_name             = local.sku_name
 
   security {
@@ -47,7 +46,8 @@ resource "azurerm_api_management" "apim" {
   tags = var.common_tags
 
   depends_on = [
-    azurerm_public_ip.apim
+    azurerm_public_ip.apim,
+    azurerm_public_ip.temp_pip
   ]
 }
 
@@ -94,7 +94,6 @@ resource "azurerm_api_management_custom_domain" "api-management-custom-domain" {
     azurerm_role_assignment.apim
   ]
 }
-
 
 resource "azurerm_api_management_logger" "apim" {
   name                = "${local.name}-logger"

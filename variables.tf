@@ -37,3 +37,11 @@ variable "route_next_hop_type" {
 variable "route_next_hop_in_ip_address" {
   default = "10.10.1.1"
 }
+
+variable "trigger_migration" {
+  default = false
+}
+
+variable "trigger_migration_temp_pip" {
+  default = false
+}
