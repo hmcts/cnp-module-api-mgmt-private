@@ -45,3 +45,13 @@ variable "trigger_migration" {
 variable "trigger_migration_temp_pip" {
   default = false
 }
+
+variable "temp_subnet_address_prefixes" {
+  type = string
+  default = ""
+
+  validation {
+    condition = var.temp_subnet_address_prefixes != null || var.temp_subnet_address_prefixes != ""
+    error_message = "Temporary subnet adress prefix cannot be left null or empty"
+  }
+}

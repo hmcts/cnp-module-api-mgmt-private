@@ -1,21 +1,22 @@
 // temp resources
-// use iaas for cft-api-mgmt-sbox only
-data "azurerm_subnet" "temp_subnet" {
+resource "azurerm_subnet" "temp_subnet" {
   count                = var.trigger_migration == true ? 1 : 0
-  name                 = "iaas"
+  name                 = "temp-migration-subnet"
+  address_prefixes     = [var.temp_subnet_address_prefixes]
   virtual_network_name = var.virtual_network_name
   resource_group_name  = var.virtual_network_resource_group
+  enforce_private_link_endpoint_network_policies = true
 }
 
 resource "azurerm_subnet_network_security_group_association" "apim_temp" {
   count                     = var.trigger_migration == true ? 1 : 0
-  subnet_id                 = data.azurerm_subnet.temp_subnet[0].id
+  subnet_id                 = azurerm_subnet.temp_subnet[0].id
   network_security_group_id = azurerm_network_security_group.apim.id
 }
 
 resource "azurerm_subnet_route_table_association" "temp_subnet" {
   count          = var.trigger_migration == true ? 1 : 0
-  subnet_id      = data.azurerm_subnet.temp_subnet[0].id
+  subnet_id      = azurerm_subnet.temp_subnet[0].id
   route_table_id = azurerm_route_table.route_table.id
 }
 
