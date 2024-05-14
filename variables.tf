@@ -38,20 +38,17 @@ variable "route_next_hop_in_ip_address" {
   default = "10.10.1.1"
 }
 
-variable "trigger_migration" {
-  default = false
-}
-
-variable "trigger_migration_temp_pip" {
-  default = false
-}
-
-variable "temp_subnet_address_prefixes" {
-  type = string
-  default = ""
+variable "migration_variables" {
+  description = "Migration related variables"
+  type = object({
+    trigger_migration            = optional(bool, false)
+    trigger_migration_temp_pip   = optional(bool, false)
+    temp_subnet_address_prefixes = optional(string, "")
+  })
 
   validation {
-    condition = var.trigger_migration == true ? (length(var.temp_subnet_address_prefixes) > 0 && var.temp_subnet_address_prefixes != null) : true
+    condition = var.migration_variables.trigger_migration == true ? (length(var.migration_variables.temp_subnet_address_prefixes) > 0 &&
+    var.migration_variables.temp_subnet_address_prefixes != null) : true
     error_message = "Temporary subnet adress prefix cannot be empty or null"
   }
 }

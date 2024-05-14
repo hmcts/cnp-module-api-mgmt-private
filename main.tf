@@ -26,18 +26,18 @@ resource "azurerm_api_management" "apim" {
   virtual_network_type      = var.virtual_network_type
 
   virtual_network_configuration {
-    subnet_id = var.trigger_migration == true ? azurerm_subnet.temp_subnet[0].id : data.azurerm_subnet.api-mgmt-subnet.id
+    subnet_id = var.migration_variables.trigger_migration == true ? azurerm_subnet.temp_subnet[0].id : data.azurerm_subnet.api-mgmt-subnet.id
   }
 
   identity {
     type = "SystemAssigned"
   }
 
-  zones                = local.zones
-  public_ip_address_id = var.trigger_migration == true ? azurerm_public_ip.temp_pip[0].id : (
-        var.sku_name == "Premium" || contains(["sbox"], var.environment) ? azurerm_public_ip.apim.id : null )
+  zones = local.zones
+  public_ip_address_id = var.migration_variables.trigger_migration == true ? azurerm_public_ip.temp_pip[0].id : (
+  var.sku_name == "Premium" || contains(["sbox"], var.environment) ? azurerm_public_ip.apim.id : null)
 
-  sku_name             = local.sku_name
+  sku_name = local.sku_name
 
   security {
     tls_rsa_with_aes256_cbc_sha_ciphers_enabled = (var.department == "sds") ? true : false
