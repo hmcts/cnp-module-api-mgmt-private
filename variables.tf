@@ -51,7 +51,7 @@ variable "temp_subnet_address_prefixes" {
   default = ""
 
   validation {
-    condition = var.temp_subnet_address_prefixes != null || var.temp_subnet_address_prefixes != ""
-    error_message = "Temporary subnet adress prefix cannot be left null or empty"
+    condition = var.trigger_migration == true ? (length(var.temp_subnet_address_prefixes) > 0 && var.temp_subnet_address_prefixes != null) : true
+    error_message = "Temporary subnet adress prefix cannot be empty or null"
   }
 }
