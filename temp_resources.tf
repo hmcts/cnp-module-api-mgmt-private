@@ -6,12 +6,16 @@ resource "azurerm_subnet" "temp_subnet" {
   virtual_network_name                           = var.virtual_network_name
   resource_group_name                            = var.virtual_network_resource_group
   enforce_private_link_endpoint_network_policies = true
+  
+  depends_on = [ azurerm_api_management_custom_domain.api-management-custom-domain ]
 }
 
 resource "azurerm_subnet_network_security_group_association" "apim_temp" {
   count                     = var.migration_variables.trigger_migration == true ? 1 : 0
   subnet_id                 = azurerm_subnet.temp_subnet[0].id
   network_security_group_id = azurerm_network_security_group.apim.id
+
+  depends_on = [ azurerm_api_management_custom_domain.api-management-custom-domain ]
 }
 
 resource "azurerm_subnet_route_table_association" "temp_subnet" {
