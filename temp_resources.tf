@@ -8,7 +8,7 @@ resource "azurerm_subnet" "temp_subnet" {
   enforce_private_link_endpoint_network_policies = true
 }
 
-resource "azurerm_subnet_network_security_group_association" "apim_temp" {
+resource "azurerm_subnet_network_security_group_association" "temp_nsg" {
   count                     = var.migration_variables.trigger_migration == true ? 1 : 0
   subnet_id                 = azurerm_subnet.temp_subnet[0].id
   network_security_group_id = azurerm_network_security_group.apim.id
