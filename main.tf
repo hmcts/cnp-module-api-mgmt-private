@@ -94,7 +94,7 @@ resource "azurerm_api_management_custom_domain" "api-management-custom-domain" {
     azurerm_api_management.apim,
     data.azurerm_api_management.apim,
     azurerm_role_assignment.apim,
-    azurerm_subnet_network_security_group_association.apim_temp
+    azurerm_subnet_network_security_group_association.temp_nsg
   ]
 }
 
