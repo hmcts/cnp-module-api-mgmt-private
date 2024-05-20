@@ -49,9 +49,7 @@ resource "azurerm_api_management" "apim" {
 
   depends_on = [
     azurerm_public_ip.apim,
-    azurerm_public_ip.temp_pip,
-    azurerm_subnet_network_security_group_association.temp_nsg,
-    azurerm_subnet.temp_subnet
+    azurerm_public_ip.temp_pip
   ]
 }
 
@@ -95,8 +93,7 @@ resource "azurerm_api_management_custom_domain" "api-management-custom-domain" {
     data.azurerm_key_vault_certificate.certificate,
     azurerm_api_management.apim,
     data.azurerm_api_management.apim,
-    azurerm_role_assignment.apim,
-    azurerm_subnet_network_security_group_association.temp_nsg
+    azurerm_role_assignment.apim
   ]
 }
 
