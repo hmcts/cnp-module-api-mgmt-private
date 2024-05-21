@@ -49,7 +49,8 @@ resource "azurerm_api_management" "apim" {
 
   depends_on = [
     azurerm_public_ip.apim,
-    azurerm_public_ip.temp_pip
+    azurerm_public_ip.temp_pip,
+    azurerm_subnet_network_security_group_association.temp_nsg
   ]
 }
 
