@@ -35,7 +35,7 @@ resource "azurerm_api_management" "apim" {
 
   zones = local.zones
   public_ip_address_id = var.migration_variables.trigger_migration == true ? azurerm_public_ip.temp_pip[0].id : (
-  var.sku_name == "Premium" || contains(["sbox", "dev", "ithc"], var.environment) ? azurerm_public_ip.apim.id : null)
+  var.sku_name == "Premium" || contains(["sbox", "dev", "ithc", "demo"], var.environment) ? azurerm_public_ip.apim.id : null)
 
   sku_name = local.sku_name
 
