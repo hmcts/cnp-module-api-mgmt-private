@@ -26,7 +26,7 @@ resource "azurerm_api_management" "apim" {
   virtual_network_type      = var.virtual_network_type
 
   virtual_network_configuration {
-    subnet_id = var.migration_variables.trigger_migration == true ? azurerm_subnet.temp_subnet[0].id : data.azurerm_subnet.api-mgmt-subnet.id
+    subnet_id = data.azurerm_subnet.api-mgmt-subnet.id
   }
 
   identity {
@@ -34,8 +34,7 @@ resource "azurerm_api_management" "apim" {
   }
 
   zones = local.zones
-  public_ip_address_id = var.migration_variables.trigger_migration == true ? azurerm_public_ip.temp_pip[0].id : (
-  var.sku_name == "Premium" || contains(["sbox", "dev", "ithc", "demo", "test", "stg"], var.environment) ? azurerm_public_ip.apim.id : null)
+  public_ip_address_id = azurerm_public_ip.apim.id
 
   sku_name = local.sku_name
 
@@ -48,9 +47,7 @@ resource "azurerm_api_management" "apim" {
   tags = var.common_tags
 
   depends_on = [
-    azurerm_public_ip.apim,
-    azurerm_public_ip.temp_pip,
-    azurerm_subnet_network_security_group_association.temp_nsg
+    azurerm_public_ip.apim
   ]
 }
 
