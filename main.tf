@@ -95,3 +95,15 @@ resource "azurerm_api_management_custom_domain" "api-management-custom-domain" {
   ]
 }
 
+resource "azurerm_api_management_logger" "apim" {
+  name                = "${local.name}-logger"
+  api_management_name = azurerm_api_management.apim.name
+  resource_group_name = var.virtual_network_resource_group
+  resource_id         = module.application_insights.id
+
+  application_insights {
+    instrumentation_key = module.application_insights.instrumentation_key
+  }
+}
+
+
