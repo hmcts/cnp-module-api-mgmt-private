@@ -1,9 +1,3 @@
-data "azurerm_subnet" "api-mgmt-subnet" {
-  name                 = "api-management"
-  virtual_network_name = var.virtual_network_name
-  resource_group_name  = var.virtual_network_resource_group
-}
-
 resource "azurerm_api_management_logger" "apim" {
   name                = "${local.name}-logger"
   api_management_name = azurerm_api_management.apim.name
