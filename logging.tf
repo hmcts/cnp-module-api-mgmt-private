@@ -2,7 +2,7 @@ resource "azurerm_api_management_diagnostic" "apim" {
   identifier               = "applicationinsights"
   resource_group_name      = var.virtual_network_resource_group
   api_management_name      = azurerm_api_management.apim.name
-  api_management_logger_id = azurerm_api_management.apim.id
+  api_management_logger_id = azurerm_api_management_logger.apim.id
 
   sampling_percentage       = 5.0
   always_log_errors         = true
