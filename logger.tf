@@ -11,11 +11,14 @@ resource "azurerm_api_management_diagnostic" "apim" {
   http_correlation_protocol = "W3C"
 
   frontend_request {
-    body_bytes = 32
+    body_bytes = 8192
     headers_to_log = [
       "content-type",
       "accept",
       "origin",
+      "soapaction",
+      "URI-PATH-AGW",
+      "X-ARR-ClientCertSub-AGW"
     ]
   }
 
