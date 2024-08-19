@@ -1,21 +1,31 @@
-resource "azurerm_api_management_diagnostic" "apim" {
-  identifier               = "cnp_application_insights"
-  resource_group_name      = var.virtual_network_resource_group
-  api_management_name      = azurerm_api_management.apim.name
-  api_management_logger_id = azurerm_api_management_logger.apim.id
+locals {
+  api_mgmt_name = var.apim_suffix == "" ? "cft-api-mgmt-${var.environment}" : "cft-api-mgmt-${var.apim_suffix}"
+  api_mgmt_resource_group = "cft-${var.environment}-network-rg"
+  api_mgmt_logger_name = "${local.api_mgmt_name}-logger"
+  api_mgmt_api_name = "${var.product}-${var.component}-api"
+}
 
-  sampling_percentage       = 5.0
+# Configure Application insights logging for API
+# Terraform doesn't currently provide an azurerm_api_management_logger data source, so instead of using
+# the value of an output variable for the api_management_logger_id parameter it has to be set explicitly.
+resource "azurerm_api_management_api_diagnostic" "api_mgmt_api_diagnostic" {
+  identifier               = "applicationinsights"
+  api_management_logger_id = "/subscriptions/${var.aks_subscription_id}/resourceGroups/${local.api_mgmt_resource_group}/providers/Microsoft.ApiManagement/service/${local.api_mgmt_name}/loggers/${local.api_mgmt_logger_name}"
+  api_management_name      = local.api_mgmt_name
+  api_name                 = local.api_mgmt_api_name
+  resource_group_name      = local.api_mgmt_resource_group
+
+  sampling_percentage       = 100.0
   always_log_errors         = true
   log_client_ip             = true
-  verbosity                 = "error"
+  verbosity                 = "verbose"
   http_correlation_protocol = "W3C"
 
   frontend_request {
     body_bytes = 8192
     headers_to_log = [
       "content-type",
-      "accept",
-      "origin",
+      "content-length",
       "soapaction",
       "URI-PATH-AGW",
       "X-ARR-ClientCertSub-AGW"
@@ -23,30 +33,7 @@ resource "azurerm_api_management_diagnostic" "apim" {
   }
 
   frontend_response {
-    body_bytes = 32
-    headers_to_log = [
-      "content-type",
-      "content-length",
-      "origin",
-    ]
-  }
-
-  backend_request {
-    body_bytes = 32
-    headers_to_log = [
-      "content-type",
-      "accept",
-      "origin",
-    ]
-  }
-
-  backend_response {
-    body_bytes = 32
-    headers_to_log = [
-      "content-type",
-      "content-length",
-      "origin",
-    ]
+    body_bytes = 8192
   }
 }
 
