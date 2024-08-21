@@ -10,7 +10,7 @@ locals {
 # the value of an output variable for the api_management_logger_id parameter it has to be set explicitly.
 resource "azurerm_api_management_api_diagnostic" "api_mgmt_api_diagnostic" {
   identifier               = "applicationinsights"
-  api_management_logger_id = "/subscriptions/${var.aks_subscription_id}/resourceGroups/${local.api_mgmt_resource_group}/providers/Microsoft.ApiManagement/service/${local.api_mgmt_name}/loggers/${local.api_mgmt_logger_name}"
+  api_management_logger_id = azurerm_api_management_logger.apim.id
   api_management_name      = local.api_mgmt_name
   api_name                 = local.api_mgmt_api_name
   resource_group_name      = local.api_mgmt_resource_group
@@ -18,18 +18,19 @@ resource "azurerm_api_management_api_diagnostic" "api_mgmt_api_diagnostic" {
   sampling_percentage       = 100.0
   always_log_errors         = true
   log_client_ip             = true
-  verbosity                 = "verbose"
+  verbosity                 = "error"
   http_correlation_protocol = "W3C"
 
   frontend_request {
     body_bytes = 8192
-    headers_to_log = [
-      "content-type",
-      "content-length",
-      "soapaction",
-      "URI-PATH-AGW",
-      "X-ARR-ClientCertSub-AGW"
-    ]
+    headers_to_log = concat(
+      ["content-type",
+        "content-length"],
+        var.sdt_headers ?
+        ["soapaction",
+        "URI-PATH-AGW",
+        "X-ARR-ClientCertSub-AGW"] : []
+    )
   }
 
   frontend_response {

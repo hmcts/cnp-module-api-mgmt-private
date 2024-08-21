@@ -69,3 +69,9 @@ variable "component" {
   type        = string
   description = "The value of the component variable that is defined in the Jenkinsfile.  Set by pipeline."
 }
+
+variable "sdt_headers" {
+  description = "Enable additional headers for logging items from SDT APIM"
+  type        = bool
+  default     = false
+}
