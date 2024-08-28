@@ -18,7 +18,7 @@ resource "azurerm_route" "additional_routes" {
   for_each = { for route in var.apim_additional_routes : route.name => route }
 
   name                   = lower(each.value.name)
-  route_table_name       = azurerm_route_table.route_table[0].name
+  route_table_name       = azurerm_route_table.route_table.name
   resource_group_name    = var.virtual_network_resource_group
   address_prefix         = each.value.address_prefix
   next_hop_type          = each.value.next_hop_type
