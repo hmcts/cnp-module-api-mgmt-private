@@ -14,6 +14,17 @@ resource "azurerm_route" "default_route" {
   next_hop_in_ip_address = var.route_next_hop_in_ip_address
 }
 
+resource "azurerm_route" "additional_routes" {
+  for_each = { for route in var.apim_additional_routes : route.name => route }
+
+  name                   = lower(each.value.name)
+  route_table_name       = azurerm_route_table.route_table[0].name
+  resource_group_name    = var.virtual_network_resource_group
+  address_prefix         = each.value.address_prefix
+  next_hop_type          = each.value.next_hop_type
+  next_hop_in_ip_address = each.value.next_hop_in_ip_address
+}
+
 resource "azurerm_route" "azure_control_plane" {
   name                = "azure-control-plane"
   route_table_name    = azurerm_route_table.route_table.name
