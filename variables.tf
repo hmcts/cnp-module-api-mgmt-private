@@ -38,7 +38,7 @@ variable "route_next_hop_in_ip_address" {
   default = "10.10.1.1"
 }
 
-variable "apim_additional_routes" {
+variable "additional_routes_apim" {
   description = "A list of additional route configurations"
   type = list(object({
     name                   = string
