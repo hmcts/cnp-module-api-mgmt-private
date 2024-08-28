@@ -15,7 +15,7 @@ resource "azurerm_route" "default_route" {
 }
 
 resource "azurerm_route" "additional_routes" {
-  for_each = { for route in var.apim_additional_routes : route.name => route }
+  for_each = { for route in var.additional_routes_apim : route.name => route }
 
   name                   = lower(each.value.name)
   route_table_name       = azurerm_route_table.route_table.name
