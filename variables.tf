@@ -39,25 +39,19 @@ variable "route_next_hop_in_ip_address" {
 }
 
 variable "additional_routes_apim" {
-description = "A list of additional route configurations"
-type = list(object({
-name = string
-address_prefix = string
-next_hop_type = string
-next_hop_in_ip_address = string
-}))
-default = []
+  description = "A list of additional route configurations"
+  type = list(object({
+    name                   = string
+    address_prefix         = string
+    next_hop_type          = string
+    next_hop_in_ip_address = string
+  }))
+  default = []
 }
 
 variable "aks_subscription_id" {
   type        = string
   description = "The AKS subscription id for the environment.  Set by pipeline."
-}
-
-variable "apim_suffix" {
-  type        = string
-  description = "The suffix to use for the APIM name.  If not set then the environment name will be used."
-  default     = ""
 }
 
 variable "product" {

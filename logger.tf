@@ -1,7 +1,5 @@
 locals {
-  api_mgmt_name = var.apim_suffix == "" ? "cft-api-mgmt-${var.environment}" : "cft-api-mgmt-${var.apim_suffix}"
   api_mgmt_resource_group = "cft-${var.environment}-network-rg"
-  api_mgmt_logger_name = "${local.api_mgmt_name}-logger"
   api_mgmt_api_name = "${var.product}-${var.component}-api"
 }
 
@@ -11,11 +9,11 @@ locals {
 resource "azurerm_api_management_api_diagnostic" "api_mgmt_api_diagnostic" {
   identifier               = "applicationinsights"
   api_management_logger_id = azurerm_api_management_logger.apim.id
-  api_management_name      = local.api_mgmt_name
+  api_management_name      = local.name
   api_name                 = local.api_mgmt_api_name
   resource_group_name      = local.api_mgmt_resource_group
 
-  sampling_percentage       = 100.0
+  sampling_percentage       = 50.0
   always_log_errors         = true
   log_client_ip             = true
   verbosity                 = "error"
