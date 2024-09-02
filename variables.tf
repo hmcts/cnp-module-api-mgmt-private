@@ -48,3 +48,24 @@ variable "additional_routes_apim" {
   }))
   default = []
 }
+
+variable "aks_subscription_id" {
+  type        = string
+  description = "The AKS subscription id for the environment.  Set by pipeline."
+}
+
+variable "product" {
+  type        = string
+  description = "The value of the product variable that is defined in the Jenkinsfile.  Set by pipeline."
+}
+
+variable "component" {
+  type        = string
+  description = "The value of the component variable that is defined in the Jenkinsfile.  Set by pipeline."
+}
+
+variable "sdt_headers" {
+  description = "Enable additional headers for logging items from SDT APIM"
+  type        = bool
+  default     = false
+}
