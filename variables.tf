@@ -2,10 +2,6 @@ variable "location" {
   default = "uksouth"
 }
 
-variable "alert_location" {
-  default     = "global"
-}
-
 variable "environment" {}
 
 variable "virtual_network_resource_group" {}
@@ -51,10 +47,4 @@ variable "additional_routes_apim" {
     next_hop_in_ip_address = string
   }))
   default = []
-}
-
-variable "alert_location" {
-  description = "Target Azure location to deploy the alert"
-  type        = string
-  default     = "global"
 }
