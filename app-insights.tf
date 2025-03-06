@@ -4,6 +4,7 @@ module "application_insights" {
   env     = local.environment
   product = var.department
   name    = "${var.department}-api-mgmt"
+  alert_location = var.alert_location
 
   resource_group_name = var.virtual_network_resource_group
   application_type    = "other"
