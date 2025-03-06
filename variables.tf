@@ -2,7 +2,9 @@ variable "location" {
   default = "uksouth"
 }
 
-variable alert_location {}
+variable alert_location {
+  default = "global"
+}
 
 variable "environment" {}
 
