@@ -2,6 +2,8 @@ variable "location" {
   default = "uksouth"
 }
 
+variable alert_location {}
+
 variable "environment" {}
 
 variable "virtual_network_resource_group" {}
