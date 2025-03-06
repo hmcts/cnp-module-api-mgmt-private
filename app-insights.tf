@@ -1,10 +1,9 @@
 module "application_insights" {
-  source = "git::https://github.com/hmcts/terraform-module-application-insights?ref=main"
+  source = "git::https://github.com/hmcts/terraform-module-application-insights?ref=4.x"
 
   env     = local.environment
   product = var.department
   name    = "${var.department}-api-mgmt"
-  alert_location = var.alert_location
 
   resource_group_name = var.virtual_network_resource_group
   application_type    = "other"
