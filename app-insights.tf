@@ -1,5 +1,5 @@
 module "application_insights" {
-  source = "git::https://github.com/hmcts/terraform-module-application-insights?ref=main"
+  source = "git::https://github.com/hmcts/terraform-module-application-insights?ref=fix-test-app-insight-location"
 
   env     = local.environment
   product = var.department
