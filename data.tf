@@ -1,14 +1,5 @@
 data "azurerm_client_config" "current" {}
 
-data "azurerm_api_management" "apim" {
-  name                = local.name
-  resource_group_name = var.virtual_network_resource_group
-
-  depends_on = [
-    azurerm_api_management.apim
-  ]
-}
-
 data "azurerm_key_vault" "main" {
   provider            = azurerm.acmedcdcftapps
   name                = "acme${local.acmekv}${local.acme_environment}"
