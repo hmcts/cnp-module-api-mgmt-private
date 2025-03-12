@@ -52,7 +52,7 @@ resource "azurerm_api_management" "apim" {
 }
 
 resource "azurerm_role_assignment" "apim" {
-  principal_id = azurerm_api_management.apim.identity[0]["principal_id"]
+  principal_id = azurerm_api_management.apim.identity.principal_id
   scope        = data.azurerm_key_vault.main.id
 
   role_definition_name = "Key Vault Secrets User"
