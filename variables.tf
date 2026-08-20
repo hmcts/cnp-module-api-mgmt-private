@@ -135,3 +135,9 @@ variable "acme_environment" {
   type        = string
   default     = null
 }
+
+variable "acme_rg_name" {
+  description = "Allows overriding the resource group name used for the ACME Key Vault. If not provided, defaults to the local.acme_rg_name value."
+  type        = string
+  default     = null
+}
