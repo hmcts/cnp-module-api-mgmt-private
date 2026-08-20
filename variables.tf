@@ -141,3 +141,9 @@ variable "acme_rg_name" {
   type        = string
   default     = null
 }
+
+variable "key_vault_environment" {
+  description = "Allows overriding the environment used for the Key Vault certificate name. If not provided, defaults to the local.key_vault_environment value."
+  type        = string
+  default     = null
+}

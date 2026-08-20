@@ -26,7 +26,7 @@ locals {
   sku_name = var.sku_name == "Premium" ? "Premium_3" : "Developer_1"
   zones    = var.sku_name == "Premium" ? ["1", "2", "3"] : []
 
-  key_vault_environment = (var.environment == "sbox") ? "sandbox" : (var.environment == "stg") ? "staging" : var.environment
+  key_vault_environment = var.key_vault_environment != null ? var.key_vault_environment : (var.environment == "sbox") ? "sandbox" : (var.environment == "stg") ? "staging" : var.environment
 
   cert_url = replace(data.azurerm_key_vault_certificate.certificate.secret_id, "/${data.azurerm_key_vault_certificate.certificate.version}", "")
   criticality = {
