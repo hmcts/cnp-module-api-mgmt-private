@@ -205,3 +205,18 @@ variable "key_vault_environment" {
   type        = string
   default     = null
 }
+
+variable "certificates" {
+  description = "A map of certificates to be added to the Root or CertificateAuthority store of the API Management service. Each certificate should be an object with the following attributes: base64 (the base64-encoded certificate), store_name (the store name, e.g., 'Root' or 'CertificateAuthority'), and password (the password for the certificate, if applicable)."
+  type = map(object({
+    base64     = string
+    store_name = optional(string, "Root")
+    password   = optional(string, null)
+  }))
+  default = {}
+
+  validation {
+    condition     = alltrue([for cert in values(var.certificates) : contains(["Root", "CertificateAuthority"], cert.store_name)])
+    error_message = "All certificates must have a store_name of either 'Root' or 'CertificateAuthority'."
+  }
+}

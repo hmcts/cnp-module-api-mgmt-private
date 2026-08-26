@@ -48,6 +48,15 @@ resource "azurerm_api_management" "apim" {
     subnet_id = data.azurerm_subnet.api-mgmt-subnet.id
   }
 
+  dynamic "certificate" {
+    for_each = var.certificates
+    content {
+      encoded_certificate  = certificate.value.base64
+      store_name           = certificate.value.store_name
+      certificate_password = certificate.value.password
+    }
+  }
+
   identity {
     type         = var.user_assigned_managed_identity_name != null ? "UserAssigned" : "SystemAssigned"
     identity_ids = var.user_assigned_managed_identity_name != null ? [data.azurerm_user_assigned_identity.uami[0].id] : []
