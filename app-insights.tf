@@ -5,8 +5,12 @@ module "application_insights" {
   product = var.department
   name    = "${var.department}-api-mgmt"
 
+  override_name = var.app_insights_custom_name != null ? "${var.app_insights_custom_name}-${local.environment}" : null
+
   resource_group_name = var.virtual_network_resource_group
   application_type    = "other"
+
+  sampling_percentage = var.sampling_percentage
 
   common_tags = var.common_tags
 }

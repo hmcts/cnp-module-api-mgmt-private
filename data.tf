@@ -1,14 +1,16 @@
 data "azurerm_client_config" "current" {}
 
 data "azurerm_key_vault" "main" {
+  count               = var.certificate_secret_id == null ? 1 : 0
   provider            = azurerm.acmedcdcftapps
   name                = "acme${local.acmekv}${local.acme_environment}"
   resource_group_name = var.acme_rg_name != null ? var.acme_rg_name : "${var.department}-platform-${local.acme_environment}-rg"
 }
 
 data "azurerm_key_vault_certificate" "certificate" {
+  count        = var.certificate_secret_id == null ? 1 : 0
   name         = (local.key_vault_environment == "prod") ? "wildcard-${var.cert_domain}-hmcts-net" : "wildcard-${local.key_vault_environment}-${var.cert_domain}-hmcts-net"
-  key_vault_id = data.azurerm_key_vault.main.id
+  key_vault_id = data.azurerm_key_vault.main[0].id
 }
 
 data "azapi_resource" "apim_custom_properties" {
@@ -29,4 +31,10 @@ data "azurerm_key_vault_certificate" "management_certificate" {
   count        = var.management != null ? 1 : 0
   name         = var.management.cert_name
   key_vault_id = var.management.key_vault_id
+}
+
+data "azurerm_user_assigned_identity" "uami" {
+  count               = var.user_assigned_managed_identity_name != null ? 1 : 0
+  name                = var.user_assigned_managed_identity_name
+  resource_group_name = var.user_assigned_managed_identity_resource_group
 }
