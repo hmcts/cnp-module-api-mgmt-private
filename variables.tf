@@ -143,12 +143,6 @@ variable "custom_nsg_rules" {
   default = {}
 }
 
-variable "custom_top_level_domain" {
-  description = "Custom top level domain for APIM. If not provided, defaults to platform.hmcts.net"
-  type        = string
-  default     = "platform.hmcts.net"
-}
-
 variable "developer_portal" {
   description = "Configuration for the APIM developer portal custom domain and certificate"
   type = object({
