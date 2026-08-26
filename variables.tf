@@ -142,3 +142,81 @@ variable "custom_nsg_rules" {
   }))
   default = {}
 }
+
+variable "developer_portal" {
+  description = "Configuration for the APIM developer portal custom domain and certificate"
+  type = object({
+    sign_in_enabled = optional(bool, false)
+    sign_up = optional(object({
+      enabled = bool
+      terms_of_service = object({
+        consent_required = bool
+        show_tos         = bool
+        text             = string
+      })
+    }))
+    custom_domain = optional(object({
+      fqdn         = string
+      key_vault_id = string
+      cert_name    = string
+    }))
+  })
+  default = {}
+}
+
+variable "management" {
+  type = object({
+    fqdn         = string
+    key_vault_id = string
+    cert_name    = string
+  })
+  default = null
+}
+
+variable "apim_diagnostic_settings" {
+  description = "Configuration for the APIM Application Insights diagnostic settings"
+  type = object({
+    sampling_percentage          = optional(number, 100)
+    always_log_errors            = optional(bool, true)
+    http_correlation_protocol    = optional(string, "W3C")
+    verbosity                    = optional(string, "information")
+    frontend_request_body_bytes  = optional(number, 0)
+    frontend_response_body_bytes = optional(number, 0)
+    backend_request_body_bytes   = optional(number, 0)
+    backend_response_body_bytes  = optional(number, 0)
+  })
+  default = {}
+}
+
+variable "acme_environment" {
+  description = "Allows overriding the environment used for the ACME Key Vault name. If not provided, defaults to the local.acme_environment value."
+  type        = string
+  default     = null
+}
+
+variable "acme_rg_name" {
+  description = "Allows overriding the resource group name used for the ACME Key Vault. If not provided, defaults to the local.acme_rg_name value."
+  type        = string
+  default     = null
+}
+
+variable "key_vault_environment" {
+  description = "Allows overriding the environment used for the Key Vault certificate name. If not provided, defaults to the local.key_vault_environment value."
+  type        = string
+  default     = null
+}
+
+variable "certificates" {
+  description = "A map of certificates to be added to the Root or CertificateAuthority store of the API Management service. Each certificate should be an object with the following attributes: base64 (the base64-encoded certificate), store_name (the store name, e.g., 'Root' or 'CertificateAuthority'), and password (the password for the certificate, if applicable)."
+  type = map(object({
+    base64     = string
+    store_name = optional(string, "Root")
+    password   = optional(string, null)
+  }))
+  default = {}
+
+  validation {
+    condition     = alltrue([for cert in values(var.certificates) : contains(["Root", "CertificateAuthority"], cert.store_name)])
+    error_message = "All certificates must have a store_name of either 'Root' or 'CertificateAuthority'."
+  }
+}

@@ -25,8 +25,36 @@ resource "azurerm_api_management" "apim" {
   notification_sender_email = var.notification_sender_email
   virtual_network_type      = var.virtual_network_type
 
+  dynamic "sign_in" {
+    for_each = var.developer_portal != null && var.developer_portal.sign_in_enabled != null ? [var.developer_portal] : []
+    content {
+      enabled = sign_in.value.sign_in_enabled
+    }
+  }
+
+  dynamic "sign_up" {
+    for_each = var.developer_portal != null && var.developer_portal.sign_up != null ? [var.developer_portal] : []
+    content {
+      enabled = sign_up.value.sign_up.enabled
+      terms_of_service {
+        enabled          = sign_up.value.sign_up.terms_of_service.show_tos
+        text             = sign_up.value.sign_up.terms_of_service.text
+        consent_required = sign_up.value.sign_up.terms_of_service.consent_required
+      }
+    }
+  }
+
   virtual_network_configuration {
     subnet_id = data.azurerm_subnet.api-mgmt-subnet.id
+  }
+
+  dynamic "certificate" {
+    for_each = var.certificates
+    content {
+      encoded_certificate  = certificate.value.base64
+      store_name           = certificate.value.store_name
+      certificate_password = certificate.value.password
+    }
   }
 
   identity {
@@ -116,10 +144,36 @@ resource "azurerm_api_management_custom_domain" "api-management-custom-domain" {
     }
   }
 
+  dynamic "developer_portal" {
+    for_each = var.developer_portal != null && var.developer_portal.custom_domain != null ? [var.developer_portal] : []
+    content {
+      host_name                = developer_portal.value.custom_domain.fqdn
+      key_vault_certificate_id = data.azurerm_key_vault_certificate.developer_portal_certificate[0].versionless_secret_id
+    }
+  }
+
+  dynamic "management" {
+    for_each = var.management != null ? [var.management] : []
+    content {
+      host_name                = management.value.fqdn
+      key_vault_certificate_id = data.azurerm_key_vault_certificate.management_certificate[0].versionless_secret_id
+    }
+  }
+
   depends_on = [
     data.azurerm_key_vault_certificate.certificate,
     azurerm_api_management.apim,
     azurerm_role_assignment.apim
+  ]
+}
+
+resource "azurerm_role_assignment" "apim_app_insights" {
+  scope                = module.application_insights.id
+  role_definition_name = "Monitoring Metrics Publisher"
+  principal_id         = azurerm_api_management.apim.identity[0].principal_id
+
+  depends_on = [
+    azurerm_api_management.apim
   ]
 }
 
@@ -130,7 +184,38 @@ resource "azurerm_api_management_logger" "apim" {
   resource_id         = module.application_insights.id
 
   application_insights {
-    instrumentation_key = module.application_insights.instrumentation_key
+    connection_string = module.application_insights.connection_string
+  }
+
+  depends_on = [
+    azurerm_role_assignment.apim_app_insights
+  ]
+}
+
+resource "azurerm_api_management_diagnostic" "applicationinsights" {
+  identifier                = "applicationinsights"
+  resource_group_name       = var.virtual_network_resource_group
+  api_management_name       = azurerm_api_management.apim.name
+  api_management_logger_id  = azurerm_api_management_logger.apim.id
+  sampling_percentage       = var.apim_diagnostic_settings.sampling_percentage
+  always_log_errors         = var.apim_diagnostic_settings.always_log_errors
+  http_correlation_protocol = var.apim_diagnostic_settings.http_correlation_protocol
+  verbosity                 = var.apim_diagnostic_settings.verbosity
+
+  frontend_request {
+    body_bytes = var.apim_diagnostic_settings.frontend_request_body_bytes
+  }
+
+  frontend_response {
+    body_bytes = var.apim_diagnostic_settings.frontend_response_body_bytes
+  }
+
+  backend_request {
+    body_bytes = var.apim_diagnostic_settings.backend_request_body_bytes
+  }
+
+  backend_response {
+    body_bytes = var.apim_diagnostic_settings.backend_response_body_bytes
   }
 }
 

@@ -61,34 +61,35 @@ module "api_management" {
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) | >= 1.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >= 3.7.0 |
 
 ## Providers
 
 | Name | Version |
-|------|---------|
-| <a name="provider_azapi"></a> [azapi](#provider\_azapi) | >= 1.0 |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | >= 3.7.0 |
-| <a name="provider_azurerm.acmedcdcftapps"></a> [azurerm.acmedcdcftapps](#provider\_azurerm.acmedcdcftapps) | >= 3.7.0 |
+| ---- | ------- |
+| <a name="provider_azapi"></a> [azapi](#provider\_azapi) | 2.10.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.79.0 |
+| <a name="provider_azurerm.acmedcdcftapps"></a> [azurerm.acmedcdcftapps](#provider\_azurerm.acmedcdcftapps) | 4.79.0 |
 
 ## Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module_application_insights"></a> [application\_insights](#module\_application\_insights) | git::https://github.com/hmcts/terraform-module-application-insights | 4.x |
 
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [azapi_update_resource.apim_disable_trusted_service_connectivity](https://registry.terraform.io/providers/Azure/azapi/latest/docs/resources/update_resource) | resource |
 | [azurerm_api_management.apim](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/api_management) | resource |
 | [azurerm_api_management_api.apim](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/api_management_api) | resource |
 | [azurerm_api_management_api_operation.apim](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/api_management_api_operation) | resource |
 | [azurerm_api_management_api_policy.apim](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/api_management_api_policy) | resource |
 | [azurerm_api_management_custom_domain.api-management-custom-domain](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/api_management_custom_domain) | resource |
+| [azurerm_api_management_diagnostic.applicationinsights](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/api_management_diagnostic) | resource |
 | [azurerm_api_management_logger.apim](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/api_management_logger) | resource |
 | [azurerm_network_security_group.apim](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group) | resource |
 | [azurerm_network_security_rule.AccessRedisService](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) | resource |
@@ -101,6 +102,7 @@ module "api_management" {
 | [azurerm_network_security_rule.vpn](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) | resource |
 | [azurerm_public_ip.apim](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) | resource |
 | [azurerm_role_assignment.apim](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azurerm_role_assignment.apim_app_insights](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_route.additional_routes](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/route) | resource |
 | [azurerm_route.azure_control_plane](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/route) | resource |
 | [azurerm_route.default_route](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/route) | resource |
@@ -111,28 +113,37 @@ module "api_management" {
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
 | [azurerm_key_vault.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault) | data source |
 | [azurerm_key_vault_certificate.certificate](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_certificate) | data source |
+| [azurerm_key_vault_certificate.developer_portal_certificate](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_certificate) | data source |
+| [azurerm_key_vault_certificate.management_certificate](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_certificate) | data source |
 | [azurerm_subnet.api-mgmt-subnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subnet) | data source |
 | [azurerm_user_assigned_identity.uami](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/user_assigned_identity) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
+| <a name="input_acme_environment"></a> [acme\_environment](#input\_acme\_environment) | Allows overriding the environment used for the ACME Key Vault name. If not provided, defaults to the local.acme\_environment value. | `string` | `null` | no |
+| <a name="input_acme_rg_name"></a> [acme\_rg\_name](#input\_acme\_rg\_name) | Allows overriding the resource group name used for the ACME Key Vault. If not provided, defaults to the local.acme\_rg\_name value. | `string` | `null` | no |
 | <a name="input_additional_routes_apim"></a> [additional\_routes\_apim](#input\_additional\_routes\_apim) | A list of additional route configurations | <pre>list(object({<br/>    name                   = string<br/>    address_prefix         = string<br/>    next_hop_type          = string<br/>    next_hop_in_ip_address = string<br/>  }))</pre> | `[]` | no |
+| <a name="input_apim_diagnostic_settings"></a> [apim\_diagnostic\_settings](#input\_apim\_diagnostic\_settings) | Configuration for the APIM Application Insights diagnostic settings | <pre>object({<br/>    sampling_percentage          = optional(number, 100)<br/>    always_log_errors            = optional(bool, true)<br/>    http_correlation_protocol    = optional(string, "W3C")<br/>    verbosity                    = optional(string, "information")<br/>    frontend_request_body_bytes  = optional(number, 0)<br/>    frontend_response_body_bytes = optional(number, 0)<br/>    backend_request_body_bytes   = optional(number, 0)<br/>    backend_response_body_bytes  = optional(number, 0)<br/>  })</pre> | `{}` | no |
 | <a name="input_app_insights_custom_name"></a> [app\_insights\_custom\_name](#input\_app\_insights\_custom\_name) | Overrides the derived Application Insights name prefix (department-api-mgmt). The environment suffix is still appended automatically. Defaults to null (the derived name). Use when a distinct name is needed to avoid clashing with other Application Insights resources. | `string` | `null` | no |
 | <a name="input_cert_domain"></a> [cert\_domain](#input\_cert\_domain) | n/a | `string` | `"platform"` | no |
 | <a name="input_certificate_secret_id"></a> [certificate\_secret\_id](#input\_certificate\_secret\_id) | Versionless Key Vault secret ID of the gateway certificate. When set, it is used directly as the custom domain key\_vault\_id and the department-derived vault/certificate lookup is skipped. The certificate is fetched at runtime via the UAMI, which must have Key Vault Secrets User on the source vault. | `string` | `null` | no |
+| <a name="input_certificates"></a> [certificates](#input\_certificates) | A map of certificates to be added to the Root or CertificateAuthority store of the API Management service. Each certificate should be an object with the following attributes: base64 (the base64-encoded certificate), store\_name (the store name, e.g., 'Root' or 'CertificateAuthority'), and password (the password for the certificate, if applicable). | <pre>map(object({<br/>    base64     = string<br/>    store_name = optional(string, "Root")<br/>    password   = optional(string, null)<br/>  }))</pre> | `{}` | no |
 | <a name="input_common_tags"></a> [common\_tags](#input\_common\_tags) | n/a | `any` | n/a | yes |
 | <a name="input_custom_gateway_hostnames"></a> [custom\_gateway\_hostnames](#input\_custom\_gateway\_hostnames) | List of custom gateway hostnames. If not provided, defaults to the standard department-based naming. | <pre>list(object({<br/>    host_name                    = string<br/>    negotiate_client_certificate = optional(bool, true)<br/>    default_ssl_binding          = optional(bool, true)<br/>  }))</pre> | `null` | no |
 | <a name="input_custom_name"></a> [custom\_name](#input\_custom\_name) | Overrides the derived instance name (department-api-mgmt-environment) used for the APIM service, public IP, NSG, route table and logger. Defaults to null (the derived name). Use when a distinct name is needed — e.g. a second APIM in a department that already owns the derived name. Does not affect department-driven vault/subscription/prefix selection. | `string` | `null` | no |
 | <a name="input_custom_nsg_rules"></a> [custom\_nsg\_rules](#input\_custom\_nsg\_rules) | A map of custom NSG rules to apply in addition to the default rules | <pre>map(object({<br/>    priority                     = number<br/>    direction                    = string<br/>    access                       = string<br/>    protocol                     = string<br/>    source_port_range            = optional(string)<br/>    source_port_ranges           = optional(list(string))<br/>    destination_port_range       = optional(string)<br/>    destination_port_ranges      = optional(list(string))<br/>    source_address_prefix        = optional(string)<br/>    source_address_prefixes      = optional(list(string))<br/>    destination_address_prefix   = optional(string)<br/>    destination_address_prefixes = optional(list(string))<br/>    description                  = optional(string)<br/>  }))</pre> | `{}` | no |
 | <a name="input_department"></a> [department](#input\_department) | n/a | `any` | n/a | yes |
+| <a name="input_developer_portal"></a> [developer\_portal](#input\_developer\_portal) | Configuration for the APIM developer portal custom domain and certificate | <pre>object({<br/>    sign_in_enabled = optional(bool, false)<br/>    sign_up = optional(object({<br/>      enabled = bool<br/>      terms_of_service = object({<br/>        consent_required = bool<br/>        show_tos         = bool<br/>        text             = string<br/>      })<br/>    }))<br/>    custom_domain = optional(object({<br/>      fqdn         = string<br/>      key_vault_id = string<br/>      cert_name    = string<br/>    }))<br/>  })</pre> | `{}` | no |
 | <a name="input_disable_trusted_service_connectivity"></a> [disable\_trusted\_service\_connectivity](#input\_disable\_trusted\_service\_connectivity) | Disable Trusted Service Connectivity (Managed Identity over-privileged access) for APIM. Set to true to disable this feature. | `bool` | `false` | no |
 | <a name="input_enable_access_redis_service_nsg_rule"></a> [enable\_access\_redis\_service\_nsg\_rule](#input\_enable\_access\_redis\_service\_nsg\_rule) | Controls creation of the AccessRedisService NSG rule (inbound TCP 6381-6383 for internal cache communication between machines/nodes within the APIM deployment). | `bool` | `true` | no |
 | <a name="input_enable_loadbalancer_nsg_rule"></a> [enable\_loadbalancer\_nsg\_rule](#input\_enable\_loadbalancer\_nsg\_rule) | Controls creation of the loadbalancer NSG rule (inbound TCP from VirtualNetwork). | `bool` | `true` | no |
 | <a name="input_enable_sync_counter_nsg_rule"></a> [enable\_sync\_counter\_nsg\_rule](#input\_enable\_sync\_counter\_nsg\_rule) | Controls creation of the SyncCounter NSG rule (inbound UDP 4290 for rate-limit counter synchronization between machines/nodes within the APIM deployment). | `bool` | `true` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `any` | n/a | yes |
+| <a name="input_key_vault_environment"></a> [key\_vault\_environment](#input\_key\_vault\_environment) | Allows overriding the environment used for the Key Vault certificate name. If not provided, defaults to the local.key\_vault\_environment value. | `string` | `null` | no |
 | <a name="input_location"></a> [location](#input\_location) | n/a | `string` | `"uksouth"` | no |
+| <a name="input_management"></a> [management](#input\_management) | n/a | <pre>object({<br/>    fqdn         = string<br/>    key_vault_id = string<br/>    cert_name    = string<br/>  })</pre> | `null` | no |
 | <a name="input_notification_sender_email"></a> [notification\_sender\_email](#input\_notification\_sender\_email) | n/a | `string` | `"apimgmt-noreply@mail.windowsazure.com"` | no |
 | <a name="input_publisher_email"></a> [publisher\_email](#input\_publisher\_email) | n/a | `string` | `"DTSPlatformOperations@justice.gov.uk"` | no |
 | <a name="input_publisher_name"></a> [publisher\_name](#input\_publisher\_name) | n/a | `string` | `"HMCTS Platform Operations"` | no |
@@ -151,7 +162,7 @@ module "api_management" {
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_custom_properties_after_update"></a> [custom\_properties\_after\_update](#output\_custom\_properties\_after\_update) | Custom properties after applying the DisableOverPrivilegedAccess setting (if disable\_trusted\_service\_connectivity is true) |
 | <a name="output_existing_custom_properties"></a> [existing\_custom\_properties](#output\_existing\_custom\_properties) | Existing custom properties before applying the DisableOverPrivilegedAccess setting |
 | <a name="output_id"></a> [id](#output\_id) | n/a |
