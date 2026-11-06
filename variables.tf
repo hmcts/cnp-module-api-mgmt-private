@@ -89,6 +89,7 @@ variable "custom_gateway_hostnames" {
     host_name                    = string
     negotiate_client_certificate = optional(bool, true)
     default_ssl_binding          = optional(bool, true)
+    cert_keyvault_id             = optional(string, null)
   }))
   default = null
 }
