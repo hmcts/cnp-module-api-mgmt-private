@@ -95,16 +95,19 @@ resource "azurerm_api_management_custom_domain" "api-management-custom-domain" {
         host_name                    = (local.key_vault_environment == "prod") ? "${var.department}-api-mgmt.platform.hmcts.net" : "${var.department}-api-mgmt.${local.key_vault_environment}.platform.hmcts.net"
         negotiate_client_certificate = true
         default_ssl_binding          = true
+        cert_keyvault_id             = null
       },
       {
         host_name                    = (local.key_vault_environment == "prod") ? "${var.department}-api-mgmt-appgw.platform.hmcts.net" : "${var.department}-api-mgmt-appgw.${local.key_vault_environment}.platform.hmcts.net"
         negotiate_client_certificate = true
         default_ssl_binding          = true
+        cert_keyvault_id             = null
       },
       {
         host_name                    = (local.key_vault_environment == "prod") ? "${var.department}-mtls-api-mgmt-appgw.platform.hmcts.net" : "${var.department}-mtls-api-mgmt-appgw.${local.key_vault_environment}.platform.hmcts.net"
         negotiate_client_certificate = true
         default_ssl_binding          = true
+        cert_keyvault_id             = null
       }
     ]
     content {
