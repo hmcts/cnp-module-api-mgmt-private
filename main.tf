@@ -109,7 +109,7 @@ resource "azurerm_api_management_custom_domain" "api-management-custom-domain" {
     ]
     content {
       host_name                       = gateway.value.host_name
-      key_vault_id                    = gateway.value.cert_keyvault_id != null ? gateway.value.cert_keyvault_id : local.cert_url
+      key_vault_id                    = lookup(gateway.value, "cert_keyvault_id", null) != null ? lookup(gateway.value, "cert_keyvault_id", null) : local.cert_url
       negotiate_client_certificate    = gateway.value.negotiate_client_certificate
       default_ssl_binding             = gateway.value.default_ssl_binding
       ssl_keyvault_identity_client_id = var.user_assigned_managed_identity_name != null ? data.azurerm_user_assigned_identity.uami[0].client_id : null
