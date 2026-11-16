@@ -67,6 +67,12 @@ variable "user_assigned_managed_identity_resource_group" {
   default     = null
 }
 
+variable "additional_user_assigned_identity_ids" {
+  description = "Resource IDs of extra User Assigned Managed Identities to attach alongside the APIM's existing identity, for example to sign in as an app through a federated credential. When user_assigned_managed_identity_name is not set, the SystemAssigned identity is kept and the type becomes \"SystemAssigned, UserAssigned\"."
+  type        = list(string)
+  default     = []
+}
+
 variable "cert_domain" {
   default = "platform"
 }

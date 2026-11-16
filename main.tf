@@ -58,8 +58,15 @@ resource "azurerm_api_management" "apim" {
   }
 
   identity {
-    type         = var.user_assigned_managed_identity_name != null ? "UserAssigned" : "SystemAssigned"
-    identity_ids = var.user_assigned_managed_identity_name != null ? [data.azurerm_user_assigned_identity.uami[0].id] : []
+    type = (
+      var.user_assigned_managed_identity_name != null ? "UserAssigned" :
+      length(var.additional_user_assigned_identity_ids) > 0 ? "SystemAssigned, UserAssigned" :
+      "SystemAssigned"
+    )
+    identity_ids = concat(
+      var.user_assigned_managed_identity_name != null ? [data.azurerm_user_assigned_identity.uami[0].id] : [],
+      var.additional_user_assigned_identity_ids
+    )
   }
 
   zones                = local.zones
