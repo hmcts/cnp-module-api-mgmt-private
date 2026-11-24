@@ -56,7 +56,7 @@ variable "disable_trusted_service_connectivity" {
 }
 
 variable "user_assigned_managed_identity_name" {
-  description = "The name of a User Assigned Managed Identity to assign to the API Management Service. If not provided, only SystemAssigned identity is used."
+  description = "The name of a User Assigned Managed Identity to assign to the API Management Service instead of its system-assigned identity, and to use for gateway certificates. If not provided, the system-assigned identity is retained."
   type        = string
   default     = null
 }
@@ -65,6 +65,13 @@ variable "user_assigned_managed_identity_resource_group" {
   description = "The resource group of the User Assigned Managed Identity. Required when user_assigned_managed_identity_name is set."
   type        = string
   default     = null
+}
+
+variable "additional_user_assigned_managed_identity_ids" {
+  description = "Additional User Assigned Managed Identity resource IDs to attach without changing the existing system identity or gateway certificate identity. With no named identity, enables SystemAssigned, UserAssigned; with a named identity, preserves UserAssigned-only mode."
+  type        = list(string)
+  default     = []
+  nullable    = false
 }
 
 variable "cert_domain" {
@@ -142,4 +149,82 @@ variable "custom_nsg_rules" {
     description                  = optional(string)
   }))
   default = {}
+}
+
+variable "developer_portal" {
+  description = "Configuration for the APIM developer portal custom domain and certificate"
+  type = object({
+    sign_in_enabled = optional(bool, false)
+    sign_up = optional(object({
+      enabled = bool
+      terms_of_service = object({
+        consent_required = bool
+        show_tos         = bool
+        text             = string
+      })
+    }))
+    custom_domain = optional(object({
+      fqdn         = string
+      key_vault_id = string
+      cert_name    = string
+    }))
+  })
+  default = {}
+}
+
+variable "management" {
+  type = object({
+    fqdn         = string
+    key_vault_id = string
+    cert_name    = string
+  })
+  default = null
+}
+
+variable "apim_diagnostic_settings" {
+  description = "Configuration for the APIM Application Insights diagnostic settings"
+  type = object({
+    sampling_percentage          = optional(number, 100)
+    always_log_errors            = optional(bool, true)
+    http_correlation_protocol    = optional(string, "W3C")
+    verbosity                    = optional(string, "information")
+    frontend_request_body_bytes  = optional(number, 0)
+    frontend_response_body_bytes = optional(number, 0)
+    backend_request_body_bytes   = optional(number, 0)
+    backend_response_body_bytes  = optional(number, 0)
+  })
+  default = {}
+}
+
+variable "acme_environment" {
+  description = "Allows overriding the environment used for the ACME Key Vault name. If not provided, defaults to the local.acme_environment value."
+  type        = string
+  default     = null
+}
+
+variable "acme_rg_name" {
+  description = "Allows overriding the resource group name used for the ACME Key Vault. If not provided, defaults to the local.acme_rg_name value."
+  type        = string
+  default     = null
+}
+
+variable "key_vault_environment" {
+  description = "Allows overriding the environment used for the Key Vault certificate name. If not provided, defaults to the local.key_vault_environment value."
+  type        = string
+  default     = null
+}
+
+variable "certificates" {
+  description = "A map of certificates to be added to the Root or CertificateAuthority store of the API Management service. Each certificate should be an object with the following attributes: base64 (the base64-encoded certificate), store_name (the store name, e.g., 'Root' or 'CertificateAuthority'), and password (the password for the certificate, if applicable)."
+  type = map(object({
+    base64     = string
+    store_name = optional(string, "Root")
+    password   = optional(string, null)
+  }))
+  default = {}
+
+  validation {
+    condition     = alltrue([for cert in values(var.certificates) : contains(["Root", "CertificateAuthority"], cert.store_name)])
+    error_message = "All certificates must have a store_name of either 'Root' or 'CertificateAuthority'."
+  }
 }
