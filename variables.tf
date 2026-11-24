@@ -72,14 +72,6 @@ variable "additional_user_assigned_managed_identity_ids" {
   type        = list(string)
   default     = []
   nullable    = false
-
-  validation {
-    condition = alltrue([
-      for identity_id in var.additional_user_assigned_managed_identity_ids :
-      can(regex("(?i)^/subscriptions/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/resourceGroups/[^/]+/providers/Microsoft\\.ManagedIdentity/userAssignedIdentities/[^/]+$", identity_id))
-    ])
-    error_message = "Additional managed identities must be full Azure user-assigned managed identity resource IDs."
-  }
 }
 
 variable "cert_domain" {
