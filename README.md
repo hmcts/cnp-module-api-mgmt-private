@@ -27,12 +27,6 @@ from this module. Policies must explicitly select an additional identity's
 client ID; otherwise APIM uses its system-assigned identity. Creating federated
 credentials on app registrations is separate from attaching an identity.
 
-Run the mocked identity tests with `terraform init -backend=false` followed by
-`terraform test -filter=tests/managed-identity.tftest.hcl`. The tests mock Azure
-providers and do not deploy infrastructure. The provider fixture selects
-AzureRM 4.80.0, matching the SPS consumer, without changing the module's provider
-requirements.
-
 ## Network Security Group (NSG) Rule Controls
 
 This module includes optional controls for specific Network Security Group (NSG) rules, allowing callers to disable rules that are not required by their workload or network architecture.
