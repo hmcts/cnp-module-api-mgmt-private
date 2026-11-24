@@ -1,5 +1,32 @@
 # Terraform module to create Azure APIM Instance with Private Endpoint
 
+## Managed identities
+
+Use `additional_user_assigned_managed_identity_ids` to attach identities for
+APIM policies without changing the existing identity used for gateway
+certificates. This list defaults to empty, preserving existing callers.
+
+| Named identity input | Additional identity IDs | APIM identity type | Gateway certificate identity |
+| --- | --- | --- | --- |
+| Unset | Empty | `SystemAssigned` | System-assigned |
+| Unset | Non-empty | `SystemAssigned, UserAssigned` | System-assigned |
+| Set | Empty or non-empty | `UserAssigned` | Named user-assigned |
+
+For combined mode, leave `user_assigned_managed_identity_name` unset and pass
+the resource IDs directly:
+
+```hcl
+additional_user_assigned_managed_identity_ids = [
+  azurerm_user_assigned_identity.token_translation.id
+]
+```
+
+In combined mode, the existing system identity's Key Vault and monitoring role
+assignments are retained. Additional identities do not receive role assignments
+from this module. Policies must explicitly select an additional identity's
+client ID; otherwise APIM uses its system-assigned identity. Creating federated
+credentials on app registrations is separate from attaching an identity.
+
 ## Network Security Group (NSG) Rule Controls
 
 This module includes optional controls for specific Network Security Group (NSG) rules, allowing callers to disable rules that are not required by their workload or network architecture.
@@ -125,6 +152,7 @@ module "api_management" {
 | <a name="input_acme_environment"></a> [acme\_environment](#input\_acme\_environment) | Allows overriding the environment used for the ACME Key Vault name. If not provided, defaults to the local.acme\_environment value. | `string` | `null` | no |
 | <a name="input_acme_rg_name"></a> [acme\_rg\_name](#input\_acme\_rg\_name) | Allows overriding the resource group name used for the ACME Key Vault. If not provided, defaults to the local.acme\_rg\_name value. | `string` | `null` | no |
 | <a name="input_additional_routes_apim"></a> [additional\_routes\_apim](#input\_additional\_routes\_apim) | A list of additional route configurations | <pre>list(object({<br/>    name                   = string<br/>    address_prefix         = string<br/>    next_hop_type          = string<br/>    next_hop_in_ip_address = string<br/>  }))</pre> | `[]` | no |
+| <a name="input_additional_user_assigned_managed_identity_ids"></a> [additional\_user\_assigned\_managed\_identity\_ids](#input\_additional\_user\_assigned\_managed\_identity\_ids) | Additional User Assigned Managed Identity resource IDs to attach without changing the existing system identity or gateway certificate identity. With no named identity, enables SystemAssigned, UserAssigned; with a named identity, preserves UserAssigned-only mode. | `list(string)` | `[]` | no |
 | <a name="input_apim_diagnostic_settings"></a> [apim\_diagnostic\_settings](#input\_apim\_diagnostic\_settings) | Configuration for the APIM Application Insights diagnostic settings | <pre>object({<br/>    sampling_percentage          = optional(number, 100)<br/>    always_log_errors            = optional(bool, true)<br/>    http_correlation_protocol    = optional(string, "W3C")<br/>    verbosity                    = optional(string, "information")<br/>    frontend_request_body_bytes  = optional(number, 0)<br/>    frontend_response_body_bytes = optional(number, 0)<br/>    backend_request_body_bytes   = optional(number, 0)<br/>    backend_response_body_bytes  = optional(number, 0)<br/>  })</pre> | `{}` | no |
 | <a name="input_app_insights_custom_name"></a> [app\_insights\_custom\_name](#input\_app\_insights\_custom\_name) | Overrides the derived Application Insights name prefix (department-api-mgmt). The environment suffix is still appended automatically. Defaults to null (the derived name). Use when a distinct name is needed to avoid clashing with other Application Insights resources. | `string` | `null` | no |
 | <a name="input_cert_domain"></a> [cert\_domain](#input\_cert\_domain) | n/a | `string` | `"platform"` | no |
@@ -153,7 +181,7 @@ module "api_management" {
 | <a name="input_route_next_hop_type"></a> [route\_next\_hop\_type](#input\_route\_next\_hop\_type) | n/a | `string` | `"VirtualAppliance"` | no |
 | <a name="input_sampling_percentage"></a> [sampling\_percentage](#input\_sampling\_percentage) | The sampling percentage for Application Insights. Defaults to null (uses the module default). | `number` | `null` | no |
 | <a name="input_sku_name"></a> [sku\_name](#input\_sku\_name) | n/a | `any` | n/a | yes |
-| <a name="input_user_assigned_managed_identity_name"></a> [user\_assigned\_managed\_identity\_name](#input\_user\_assigned\_managed\_identity\_name) | The name of a User Assigned Managed Identity to assign to the API Management Service. If not provided, only SystemAssigned identity is used. | `string` | `null` | no |
+| <a name="input_user_assigned_managed_identity_name"></a> [user\_assigned\_managed\_identity\_name](#input\_user\_assigned\_managed\_identity\_name) | The name of a User Assigned Managed Identity to assign to the API Management Service instead of its system-assigned identity, and to use for gateway certificates. If not provided, the system-assigned identity is retained. | `string` | `null` | no |
 | <a name="input_user_assigned_managed_identity_resource_group"></a> [user\_assigned\_managed\_identity\_resource\_group](#input\_user\_assigned\_managed\_identity\_resource\_group) | The resource group of the User Assigned Managed Identity. Required when user\_assigned\_managed\_identity\_name is set. | `string` | `null` | no |
 | <a name="input_virtual_network_name"></a> [virtual\_network\_name](#input\_virtual\_network\_name) | n/a | `any` | n/a | yes |
 | <a name="input_virtual_network_resource_group"></a> [virtual\_network\_resource\_group](#input\_virtual\_network\_resource\_group) | n/a | `any` | n/a | yes |

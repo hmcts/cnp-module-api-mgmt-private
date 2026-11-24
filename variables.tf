@@ -56,7 +56,7 @@ variable "disable_trusted_service_connectivity" {
 }
 
 variable "user_assigned_managed_identity_name" {
-  description = "The name of a User Assigned Managed Identity to assign to the API Management Service. If not provided, only SystemAssigned identity is used."
+  description = "The name of a User Assigned Managed Identity to assign to the API Management Service instead of its system-assigned identity, and to use for gateway certificates. If not provided, the system-assigned identity is retained."
   type        = string
   default     = null
 }
@@ -65,6 +65,13 @@ variable "user_assigned_managed_identity_resource_group" {
   description = "The resource group of the User Assigned Managed Identity. Required when user_assigned_managed_identity_name is set."
   type        = string
   default     = null
+}
+
+variable "additional_user_assigned_managed_identity_ids" {
+  description = "Additional User Assigned Managed Identity resource IDs to attach without changing the existing system identity or gateway certificate identity. With no named identity, enables SystemAssigned, UserAssigned; with a named identity, preserves UserAssigned-only mode."
+  type        = list(string)
+  default     = []
+  nullable    = false
 }
 
 variable "cert_domain" {
